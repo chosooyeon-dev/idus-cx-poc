@@ -306,7 +306,7 @@ export async function POST(req: Request) {
   const system = `${SYSTEM_PROMPT_BASE}\n\n${buildUserBlock(userId)}${escalateInjection}`;
 
   const result = streamText({
-    model: openrouter.chat("anthropic/claude-3.5-sonnet"),
+    model: openrouter.chat("anthropic/claude-sonnet-4-5"),
     system,
     messages: modelMessages,
     tools: allTools,
