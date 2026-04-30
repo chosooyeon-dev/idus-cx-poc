@@ -9,6 +9,7 @@ import { z } from "zod";
 import artistsData from "@/data/artists.json";
 import productsData from "@/data/products.json";
 import usersData from "@/data/users.json";
+import { KB_CATEGORY_MAP, getFaq, getFaqTitle, getFaqsByCategory } from "./kb";
 import { adjudicateRefund, type OrderStage, type PolicyType } from "./refund_policy";
 
 interface SampleOrder {
@@ -376,11 +377,77 @@ export const escalate_to_human = tool({
   },
 });
 
+// ---------------------------------------------------------------------------
+// Real idus FAQ KB lookup
+// ---------------------------------------------------------------------------
+
+export const lookup_faq = tool({
+  description:
+    "**[필수 호출 — 정책·운영 안내 시]** 진짜 아이디어스 FAQ 본문에서 인용할 답변을 가져옵니다. " +
+    "환불·교환·취소·배송·작가 메시지·분쟁·선물하기·쿠폰·회원등급 등 운영 정책 질문은 LLM 지식으로 답하지 말고 이 도구를 호출해 진짜 본문을 받은 뒤, " +
+    "응답에 본문을 그대로 인용하고 출처(예: '아이디어스 FAQ #39 자주 묻는 질문 - 취소/반품/교환')를 표기하세요. " +
+    "category로 검색하거나 faq_id로 직접 조회 가능. " +
+    "사용 가능 category: refund / shipping / artist_message / defect_dispute / gift / coupon / membership / review.",
+  inputSchema: z.object({
+    category: z
+      .enum([
+        "refund",
+        "shipping",
+        "artist_message",
+        "defect_dispute",
+        "gift",
+        "coupon",
+        "membership",
+        "review",
+      ])
+      .nullable()
+      .default(null)
+      .describe("의도 카테고리 (예: 환불 의도 → refund)"),
+    faq_id: z
+      .number()
+      .int()
+      .nullable()
+      .default(null)
+      .describe("특정 FAQ ID 직접 조회 (예: 39, 41, 47)"),
+  }),
+  execute: async ({ category, faq_id }) => {
+    if (faq_id !== null && faq_id !== undefined) {
+      const item = getFaq(faq_id);
+      if (!item) return { error: `FAQ #${faq_id}을(를) 찾을 수 없습니다.` };
+      return {
+        results: [
+          {
+            faq_id: item.id,
+            title: getFaqTitle(item),
+            source: `아이디어스 FAQ #${item.id} ${getFaqTitle(item)}`,
+            body_md: item.clean_md,
+          },
+        ],
+      };
+    }
+    if (category) {
+      const items = getFaqsByCategory(category);
+      if (items.length === 0) return { error: `카테고리 ${category}에 해당하는 FAQ가 없습니다.` };
+      return {
+        category,
+        results: items.map((it) => ({
+          faq_id: it.id,
+          title: getFaqTitle(it),
+          source: `아이디어스 FAQ #${it.id} ${getFaqTitle(it)}`,
+          body_md: it.clean_md,
+        })),
+      };
+    }
+    return { error: "category 또는 faq_id 중 하나는 반드시 지정." };
+  },
+});
+
 export const allTools = {
   lookup_user,
   get_user_orders,
   lookup_order,
   lookup_artist,
+  lookup_faq,
   refund_policy_engine,
   recommend_gift,
   track_shipping,

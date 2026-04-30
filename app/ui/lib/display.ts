@@ -10,19 +10,21 @@ export const TOOL_DISPLAY_NAMES: Record<string, string> = {
   get_user_orders: "유저 주문 목록",
   lookup_order: "주문 조회",
   lookup_artist: "작가 정책 조회",
+  lookup_faq: "idus FAQ 본문",
   refund_policy_engine: "환불 정책 룰엔진",
   recommend_gift: "선물 추천 검색",
   track_shipping: "배송 조회",
   escalate_to_human: "사람 이관",
 };
 
-export type Intent = "refund" | "recommend" | "shipping" | "escalation" | "shared";
+export type Intent = "refund" | "recommend" | "shipping" | "escalation" | "knowledge" | "shared";
 
 export const TOOL_INTENT: Record<string, Intent> = {
   lookup_user: "shared",
   get_user_orders: "shared",
   lookup_order: "shared",
   lookup_artist: "shared",
+  lookup_faq: "knowledge",
   refund_policy_engine: "refund",
   recommend_gift: "recommend",
   track_shipping: "shipping",
@@ -34,6 +36,7 @@ export const INTENT_DISPLAY_NAMES: Record<Intent, string> = {
   recommend: "선물 추천",
   shipping: "배송 조회",
   escalation: "사람 이관",
+  knowledge: "FAQ 인용",
   shared: "공통",
 };
 

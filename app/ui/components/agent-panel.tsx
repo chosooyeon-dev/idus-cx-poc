@@ -48,7 +48,7 @@ export function AgentPanel({ messages }: Props) {
   );
 }
 
-const INTENT_ORDER: Intent[] = ["refund", "recommend", "shipping", "escalation", "shared"];
+const INTENT_ORDER: Intent[] = ["refund", "recommend", "shipping", "escalation", "knowledge", "shared"];
 
 function ToolsCard() {
   const grouped: Record<Intent, string[]> = {
@@ -56,6 +56,7 @@ function ToolsCard() {
     recommend: [],
     shipping: [],
     escalation: [],
+    knowledge: [],
     shared: [],
   };
   for (const [name, intent] of Object.entries(TOOL_INTENT)) {

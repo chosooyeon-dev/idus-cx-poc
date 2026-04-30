@@ -31,3 +31,8 @@ Thumbs.db
 .claude/
 .idea/
 .vscode/
+data/idus_kb/*.png
+data/idus_kb/*.txt
+data/idus_kb/*.html
+data/idus_kb/*.jpg
+data/idus_real_kb.json

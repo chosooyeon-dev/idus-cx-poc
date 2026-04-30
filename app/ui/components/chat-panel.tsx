@@ -16,14 +16,14 @@ import usersData from "@/data/users.json";
 import { DEFAULT_USER_ID } from "@/lib/tools";
 
 const STARTER_PROMPTS = [
-  { label: "환불", icon: "💸", prompt: "주문한 컵 환불하고 싶어요." },
+  { label: "환불", icon: "💸", prompt: "주문한 거 환불할 수 있어요?" },
   { label: "선물 추천", icon: "🎁", prompt: "엄마 환갑 선물 추천해줘." },
-  { label: "배송", icon: "📦", prompt: "주문한 거 언제 와요?" },
-  { label: "작가 무응답", icon: "👤", prompt: "작가가 메시지에 답이 없어요." },
+  { label: "배송출발일", icon: "📦", prompt: "주문한 거 언제 와요?" },
+  { label: "작가 메시지", icon: "👤", prompt: "작가가 메시지에 답이 없어요." },
   { label: "작품 하자", icon: "🔧", prompt: "받은 작품에 금이 갔어요." },
-  { label: "교환", icon: "🔄", prompt: "사이즈 다른 색으로 바꿀 수 있나요?" },
-  { label: "선물하기", icon: "🎀", prompt: "선물하기 옵션 어떻게 추가해요?" },
-  { label: "부분 환불", icon: "💰", prompt: "절반만 환불받을 수 있을까요?" },
+  { label: "쿠폰", icon: "🎟️", prompt: "쿠폰 어떻게 써요?" },
+  { label: "회원 등급", icon: "👑", prompt: "회원 등급 어떻게 올려요?" },
+  { label: "선물하기", icon: "🎀", prompt: "휴대폰 번호로 선물 보낼 수 있어요?" },
 ];
 
 const productById = new Map(productsData.map((p) => [p.id, p]));
