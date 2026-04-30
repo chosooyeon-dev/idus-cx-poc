@@ -60,6 +60,39 @@
 
 > Shopify Sidekick 출처: https://shopify.engineering/building-production-ready-agentic-systems
 
+### 1-1. KB Recall / Precision (RAG 그라운딩 측정)
+
+LLM Judge 외에 KB(`idus_real_kb_clean.json`) 그라운딩 자체의 정확도를 별도 측정:
+
+| 지표 | 정의 | 공식 | 목표 |
+|---|---|---|---|
+| **KB Recall** | 정답 FAQ가 응답에 인용된 비율 | 인용된 정답 FAQ 수 / GT의 정답 FAQ 수 | **0.85+** |
+| **KB Precision** | 인용된 FAQ 중 진짜 관련 비율 | 관련 FAQ 인용 / 전체 FAQ 인용 | **0.90+** |
+| **KB Faithfulness** | 응답 본문이 인용 FAQ 본문과 일치하는 비율 | 본문 일치 응답 / 전체 KB 인용 응답 | **0.95+** |
+
+> Precision이 떨어지면 *"엉뚱한 FAQ 끌어옴"*, Recall이 떨어지면 *"있는 KB를 못 찾음"*, Faithfulness가 떨어지면 *"인용은 했는데 본문은 환각"*. 셋 다 따로 본다.
+
+GT 라벨링 시 *"이 질문에 대한 정답 FAQ ID"* 컬럼 추가 → 자동 계산 가능.
+
+### 1-2. 매출 chain — Cohen's Kappa → 매출
+
+Eval 점수가 매출에 어떻게 연결되는지 직관적 chain:
+
+```
+Cohen's Kappa 0.7 (Judge ↔ 사람 일치)
+   ↓ Judge가 신뢰 가능 → 매주 자동 채점·PR 가능
+   ↓ 룰·프롬프트 보강 속도 ↑
+정책 인용 정확도 ↑ → CSAT +0.3 (4.1 → 4.4)
+   ↓ 만족 응답 비율 ↑
+재방문율 +5% (월 1회 → 월 1.05회)
+   ↓ 거래 빈도 ↑
+인당 연 매출 +10% (idus 평균 객단가 30K 기준 +3K/년)
+   ↓ × 활성 사용자 수 (idus 추정 100만)
+연 매출 영향 ~30억원 (단일 클라이언트 단순 추정)
+```
+
+> 추정치. 실 운영은 retention cohort 분석 + CSAT 회귀로 검증 필요. Klarna 사례에서 보듯 CSAT 22% 하락은 매출 직격, 역도 성립.
+
 ### 2. Daily failure review (내 운영 패턴 #5)
 
 매일 **30분**, **5개 실패 케이스** 리뷰:

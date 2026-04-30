@@ -1,0 +1,117 @@
+{
+  "date": "2026-04-30T14:40:35.238Z",
+  "n": 8,
+  "method": "5-gram char overlap (정규화 후) + sources.faq_id ↔ expected_faq_ids 교집합",
+  "precision": 0,
+  "recall": 0.25,
+  "avg_overlap": 0,
+  "rows": [
+    {
+      "id": "A",
+      "label": "선물 추천",
+      "input": "엄마 환갑 선물 30만원대 도자기 추천",
+      "expected_faq_ids": [
+        55
+      ],
+      "cited_faq_id": null,
+      "cited_text": "",
+      "overlap": 0,
+      "precision": 0,
+      "recall": 0
+    },
+    {
+      "id": "B",
+      "label": "환불 안내",
+      "input": "주문한 컵 환불해주세요",
+      "expected_faq_ids": [
+        39,
+        41
+      ],
+      "cited_faq_id": 39,
+      "cited_text": "",
+      "overlap": 0,
+      "precision": 0,
+      "recall": 1
+    },
+    {
+      "id": "C",
+      "label": "작품 하자",
+      "input": "받은 작품에 금이 갔어요",
+      "expected_faq_ids": [
+        23
+      ],
+      "cited_faq_id": null,
+      "cited_text": "",
+      "overlap": 0,
+      "precision": 0,
+      "recall": 0
+    },
+    {
+      "id": "D",
+      "label": "작가 무응답",
+      "input": "작가가 답이 없어요",
+      "expected_faq_ids": [
+        47
+      ],
+      "cited_faq_id": null,
+      "cited_text": "",
+      "overlap": 0,
+      "precision": 0,
+      "recall": 0
+    },
+    {
+      "id": "E",
+      "label": "부분 환불",
+      "input": "절반만 환불받을 수 있을까요?",
+      "expected_faq_ids": [
+        39,
+        41
+      ],
+      "cited_faq_id": 39,
+      "cited_text": "",
+      "overlap": 0,
+      "precision": 0,
+      "recall": 1
+    },
+    {
+      "id": "F",
+      "label": "교환 요청",
+      "input": "다른 색으로 바꿀 수 있나요?",
+      "expected_faq_ids": [
+        39
+      ],
+      "cited_faq_id": null,
+      "cited_text": "",
+      "overlap": 0,
+      "precision": 0,
+      "recall": 0
+    },
+    {
+      "id": "G",
+      "label": "배송 조회",
+      "input": "주문한 거 언제 와요?",
+      "expected_faq_ids": [
+        42,
+        62
+      ],
+      "cited_faq_id": null,
+      "cited_text": "",
+      "overlap": 0,
+      "precision": 0,
+      "recall": 0
+    },
+    {
+      "id": "H",
+      "label": "쿠폰",
+      "input": "쿠폰 어떻게 써요?",
+      "expected_faq_ids": [
+        36
+      ],
+      "cited_faq_id": null,
+      "cited_text": "",
+      "overlap": 0,
+      "precision": 0,
+      "recall": 0
+    }
+  ]
+}
