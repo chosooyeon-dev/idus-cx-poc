@@ -19,28 +19,34 @@
 2. **검증 가능성** — 응답 끝에 `sources` JSON 강제 (cited_policy + decision + inquiry_count + faq_id). 평가자가 정책·근거를 그대로 검증 가능.
 3. **사람 라우팅** — 동일 주문 환불 ≥3회 + 감정 격앙·법적·VIP 키워드 자동 escalate, ticket_id 진짜 발급(`TKT-XXXXXX`).
 
-### 차별화 5축 — ALF v2 미답 영역 정조준
+### 보강한 5축 — 일반 챗봇 위에 올린 패턴
 
-| # | 차별화 | 패턴 출처 |
+| # | 보강 | 참고 |
 |---|---|---|
-| 1 | **Multi-step Discovery dialog** — escalate 전 사진·구매일·증상 자율 수집 | Intercom Fin 3 Procedures |
-| 2 | **구조화 collected_info + ticket 자동발급** — 담당자 핑퐁 차단 | Sierra Multi-step Deep Agent |
+| 1 | **Multi-step Discovery dialog** — escalate 전 사진·구매일·증상 자율 수집. 한 턴 1~2개 질문 제한 | Intercom Fin 3 Procedures |
+| 2 | **구조화 collected_info + ticket 자동발급** — 담당자 핑퐁 차단 | Sierra 스타일 멀티-스텝 |
 | 3 | **부서 자동 라우팅** — 환불·배송·작가·기술 4종 분기 | 자체 (내 운영 패턴 #3) |
-| 4 | **환불 → CRM 회복** — 환불 안내 후 같은 작가·비슷한 분위기 작품 카드 자동 추천 | Klarna 회복 + Gorgias Autopilot |
-| 5 | **진짜 idus FAQ 본문 인용 + 출처 표기** — 합성 데이터 X, 진짜 KB 기반 | Shopify Sidekick RAG 그라운딩 |
+| 4 | **환불 → CRM 회복** — 환불 안내 후 같은 작가·비슷한 분위기 작품 카드 자동 추천 | Klarna 후속 회복 사례 + Gorgias Autopilot |
+| 5 | **진짜 idus FAQ 본문 그라운딩** — 합성 데이터 X, 19건 진짜 KB 기반 (출처는 sources JSON에만, 본문 노출 X) | Shopify Sidekick RAG 그라운딩 |
 
 ## 시연 시나리오 8종
 
-| 시나리오 | 입력 예시 | 도구 호출 흐름 | 차별화 적용 |
+각 시나리오 통과 기준 4축: ① 응답 끝까지 출력 ② 도구 호출 정확 ③ 정책 인용 정확 (KB 본문 일치) ④ 톤 자연 (공감 → 정책 → 가이드 3단).
+
+| 시나리오 | 입력 예시 | 도구 호출 흐름 | 통과 기준 |
 |---|---|---|---|
-| **A. 선물 추천** | "엄마 환갑 선물 30만원대 도자기 추천" | `lookup_user` → `recommend_gift` | 의미 매칭 (occasion_context 자연어) + ProductCard 3개 |
-| **B. 환불 안내** | "주문한 컵 환불해주세요" | `lookup_user` → `get_user_orders` → `refund_policy_engine` → `lookup_faq` | 룰엔진 + FAQ #39·#41 인용 + sources JSON |
-| **C. 작품 하자** | "받은 작품에 금이 갔어요" | Discovery → 사진·구매일 수집 → `escalate_to_human(collected_info)` | Discovery dialog + ticket 자동발급 |
-| **D. 작가 무응답** | "작가가 답이 없어요" | Discovery → 마지막 메시지·내용 수집 → escalate | FAQ #47 (작품 문의 메시지 동선) 인용 |
-| **E. 부분 환불** | "절반만 환불받을 수 있을까요?" | get_user_orders → refund_policy_engine(partial_only 분기) | 작가 정책별 case_by_case 분기 |
-| **F. 교환 요청** | "다른 색으로 바꿀 수 있나요?" | lookup_artist → 작가별 정책 + 메시지 동선 안내 | FAQ #39 교환 정책 인용 |
+| **A. 선물 추천** | "엄마 환갑 선물 30만원대 도자기 추천" | `lookup_user` → `recommend_gift` | 의미 매칭 추천 3개 + ProductCard 카드 표시 |
+| **B. 환불 안내** | "주문한 컵 환불해주세요" | `lookup_user` → `get_user_orders` → `refund_policy_engine` → `lookup_faq` | 룰엔진 결과 + 자연어 정책 풀이 + sources JSON |
+| **C. 작품 하자** | "받은 작품에 금이 갔어요" | Discovery (사진·구매일·증상 1~2개) → `escalate_to_human(collected_info)` | ticket_id 진짜 발급 + 담당자 부서 자동 라우팅 |
+| **D. 작가 무응답** | "작가가 답이 없어요" | get_user_orders 자동 → 1~2개 명확화 → escalate | FAQ #47 작가 메시지 동선 안내 |
+| **E. 부분 환불** | "절반만 환불받을 수 있을까요?" | get_user_orders → refund_policy_engine (partial_only) | 작가 정책별 case_by_case 분기 |
+| **F. 교환 요청** | "다른 색으로 바꿀 수 있나요?" | lookup_artist → 작가별 정책 + 메시지 동선 | FAQ #39 교환 정책 자연어 풀이 |
 | **G. 배송 조회** | "주문한 거 언제 와요?" | get_user_orders → `track_shipping` | 작가별 평균 리드타임 + 현재 단계 |
 | **H. 환불 거부 후 회복** | (시나리오 B/E 후 자동) | recommend_gift (같은 작가·비슷한 분위기) | CRM 회복 흐름 + "장바구니 담기 (시연)" CTA |
+
+각 시나리오 prod e2e 자동 검증 스크립트는 [`scripts/test/scenarios_e2e.ts`](scripts/test/scenarios_e2e.ts). 최근 결과 [`data/eval_scenarios.json`](data/eval_scenarios.json) — **8/8 통과 (100%)**, 평균 응답 12.5초.
+
+LLM Judge 베이스라인: [`scripts/eval/baseline.ts`](scripts/eval/baseline.ts) → [`data/eval_baseline.json`](data/eval_baseline.json). n=5, 평균 2.45/5 (`docs/kpi.md` §"LLM Judge 베이스라인 점수 분석" 참조).
 
 ## 스택
 
