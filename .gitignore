@@ -1,0 +1,33 @@
+# 환경변수 절대 push 금지
+.env.local
+.env*.local
+.env
+
+# 면접 준비용 내부 자료 (외부 공개 X)
+research/
+
+# Node
+node_modules/
+.next/
+dist/
+build/
+*.log
+*.tsbuildinfo
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# 데이터·세션
+data/raw/
+*.session.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 도구 캐시
+.claude/
+.idea/
+.vscode/

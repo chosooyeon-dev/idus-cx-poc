@@ -1,0 +1,102 @@
+[
+  {
+    "id": "a01",
+    "name": "정도연",
+    "specialty": "도자기",
+    "policy_type": "no_refund_after_start",
+    "policy_text": "제작 착수 전(주문 후 24시간 내)에는 전액 환불 가능합니다. 제작 착수 후에는 핸드메이드 도자 특성상 환불·교환이 불가합니다. 단, 작품 자체의 하자가 확인되면 작가가 1:1로 처리합니다.",
+    "avg_lead_time_days": 14,
+    "rating": 4.8,
+    "total_reviews": 842
+  },
+  {
+    "id": "a02",
+    "name": "한태경",
+    "specialty": "가죽",
+    "policy_type": "partial_only",
+    "policy_text": "제작 착수 전 전액 환불. 제작 착수 후 ~ 발송 전: 50% 부분 환불(작업 인건비 제외). 발송 후 단순변심: 환불 불가, 하자에 한해 교환 가능합니다.",
+    "avg_lead_time_days": 10,
+    "rating": 4.6,
+    "total_reviews": 611
+  },
+  {
+    "id": "a03",
+    "name": "윤하은",
+    "specialty": "캔들",
+    "policy_type": "full_refund",
+    "policy_text": "발송 전 언제든 전액 환불. 발송 후 7일 이내 단순변심도 전액 환불 가능합니다(왕복 배송비 고객 부담). 사용 흔적이 있는 경우 환불이 제한됩니다.",
+    "avg_lead_time_days": 5,
+    "rating": 4.8,
+    "total_reviews": 1432
+  },
+  {
+    "id": "a04",
+    "name": "임수빈",
+    "specialty": "뜨개",
+    "policy_type": "case_by_case",
+    "policy_text": "맞춤 제작 비중이 높아 환불·교환은 1:1 협의 후 결정합니다. 일반 재고 상품은 발송 전 전액 환불, 맞춤 상품은 진행 단계에 따라 협의가 필요합니다.",
+    "avg_lead_time_days": 21,
+    "rating": 4.6,
+    "total_reviews": 318
+  },
+  {
+    "id": "a05",
+    "name": "최성우",
+    "specialty": "우드",
+    "policy_type": "no_refund_after_start",
+    "policy_text": "원목 가공 특성상 제작 착수 후 환불이 불가합니다. 착수 전(주문 후 24시간 내) 전액 환불, 발송 후 작품 하자만 교환 가능합니다.",
+    "avg_lead_time_days": 12,
+    "rating": 4.7,
+    "total_reviews": 487
+  },
+  {
+    "id": "a06",
+    "name": "강민지",
+    "specialty": "액세서리",
+    "policy_type": "full_refund",
+    "policy_text": "발송 전 언제든 전액 환불. 발송 후 7일 이내 단순변심 전액 환불 가능합니다(왕복 배송비 고객 부담). 귀걸이 등 위생용품은 미개봉 시에만 환불 가능.",
+    "avg_lead_time_days": 7,
+    "rating": 4.7,
+    "total_reviews": 822
+  },
+  {
+    "id": "a07",
+    "name": "박세린",
+    "specialty": "천연비누",
+    "policy_type": "partial_only",
+    "policy_text": "발송 전 전액 환불 가능합니다. 발송 후 단순변심 시 사용감이 없으면 50% 환불, 사용 흔적이 있으면 환불 불가합니다.",
+    "avg_lead_time_days": 3,
+    "rating": 4.6,
+    "total_reviews": 813
+  },
+  {
+    "id": "a08",
+    "name": "노지원",
+    "specialty": "패브릭",
+    "policy_type": "case_by_case",
+    "policy_text": "맞춤 자수·각인 비중이 높아 사례별 협의로 처리합니다. 일반 상품은 발송 전 전액 환불, 맞춤 상품은 진행 단계에 따라 협의가 필요합니다.",
+    "avg_lead_time_days": 14,
+    "rating": 4.6,
+    "total_reviews": 362
+  },
+  {
+    "id": "a09",
+    "name": "권은채",
+    "specialty": "일러스트",
+    "policy_type": "no_refund_after_start",
+    "policy_text": "오리지널 작품 특성상 제작 착수 후 환불이 불가합니다. 시안 확정 전(보통 3일 이내) 전액 환불 가능합니다.",
+    "avg_lead_time_days": 30,
+    "rating": 4.8,
+    "total_reviews": 191
+  },
+  {
+    "id": "a10",
+    "name": "서가람",
+    "specialty": "그릇",
+    "policy_type": "partial_only",
+    "policy_text": "도자 가마 작업 특성상 발송 전 50% 환불(가마 비용 제외), 발송 후 환불 불가합니다. 작품 하자는 별도 교환 가능합니다.",
+    "avg_lead_time_days": 14,
+    "rating": 4.7,
+    "total_reviews": 204
+  }
+]
