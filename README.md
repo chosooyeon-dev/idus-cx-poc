@@ -1,20 +1,22 @@
-# 아이디어스 CS 에이전트 PoC
+# 아이디어스 CS 에이전트 — 라이브 시연
 
-> 채널톡 AX Consultant 과제 — 핸드메이드 마켓플레이스용 CS 에이전트.
-> **단일 에이전트 + 룰엔진 + 도구 호출 트레이스** + **진짜 idus FAQ 본문 기반 KB**.
->
-> ⚠️ **본 시연은 지원자 개인 포트폴리오이며, ㈜아이디어스의 공식 프로젝트가 아닙니다.** 사용된 정책 텍스트는 아이디어스 공개 FAQ를 학습 목적으로 인용했고, 상품·작가·주문 데이터는 모두 합성입니다. 시연 콘솔의 트레이스 패널은 평가자용이며 일반 사용자 노출 X.
+> 핸드메이드 마켓플레이스에서 *"환불해주세요"* 한 마디부터 작가 무응답·작품 하자까지,
+> CS 시나리오 8종을 **룰엔진이 정책 판정 / LLM이 한국어 응답** 구조로 처리합니다.
+> Klarna가 CSAT 22% 잃은 함정(자동해결률만 보기)을 **Safety Rate 쌍 측정**으로 회피.
 
 ## 🔗 라이브 URL
 
-**https://idus-cx-poc.vercel.app/**
+**https://idus-cx-poc.vercel.app/** · 시크릿 모드·iPhone Safari 외부 접근 검증 완료
 
-> Vercel 단일 프로젝트 · main alias (영구 URL, 새 commit 자동 갱신).
-> 시크릿 모드·iPhone Safari 외부 접근 검증.
+## 한눈에 보는 차별점 3개
+
+- **룰엔진(`refund_policy.ts`)이 정책 판정** — LLM은 응답 작성만. Vitest **18/18 통과**. 환불 가/불·케이스별·부분 4종 분기를 코드로 박아 환각 차단.
+- **진짜 idus FAQ 19건 본문 KB** — Playwright + Tesseract Korean OCR + Claude Vision 파이프라인으로 직접 추출 (합성 X). 정책 인용에 진짜 출처 표기.
+- **Safety Rate + 자동해결률 쌍 모니터링** — KPI 8축 (Klarna 반면교재). 자동해결률만 자랑하는 PoC가 아닌, *"위험 케이스를 사람한테 제대로 넘기는 비율"* 을 동시에 측정.
 
 ## 핵심 가치 (3축 + 차별화 5)
 
-### 3축 — Phase 2 검증 통과
+### 3축 — 신뢰 가능한 자동화의 최소 조건
 1. **정책 판정은 룰엔진** — 4종 정책(`full_refund / no_refund_after_start / case_by_case / partial_only`) 분기 TS pure function. **단위 테스트 18/18 통과**. LLM은 응답 작성만.
 2. **검증 가능성** — 응답 끝에 `sources` JSON 강제 (cited_policy + decision + inquiry_count + faq_id). 평가자가 정책·근거를 그대로 검증 가능.
 3. **사람 라우팅** — 동일 주문 환불 ≥3회 + 감정 격앙·법적·VIP 키워드 자동 escalate, ticket_id 진짜 발급(`TKT-XXXXXX`).
@@ -111,3 +113,11 @@ npx vitest run lib/refund_policy.test.ts   # 18/18 통과
 ## 라이선스
 
 베이스 레포: [openai/openai-cs-agents-demo](https://github.com/openai/openai-cs-agents-demo) (MIT). UI 부분만 차용 + 단일 에이전트로 재작성.
+
+---
+
+## 시연 범위 안내
+
+> ⚠️ 본 시연은 지원자 개인 포트폴리오이며, ㈜아이디어스의 공식 프로젝트가 아닙니다.
+> 사용된 정책 텍스트는 아이디어스 공개 FAQ를 학습 목적으로 인용했고, 상품·작가·주문 데이터는 모두 합성입니다.
+> 시연 콘솔의 트레이스 패널은 평가자용이며 일반 사용자 노출 X.
