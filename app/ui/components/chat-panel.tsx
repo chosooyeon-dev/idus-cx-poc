@@ -13,14 +13,14 @@ import usersData from "@/data/users.json";
 import { DEFAULT_USER_ID } from "@/lib/tools";
 
 const STARTER_PROMPTS = [
-  { label: "환불", prompt: "주문한 컵 환불하고 싶어요." },
-  { label: "선물 추천", prompt: "엄마 환갑 선물 추천해줘." },
-  { label: "배송", prompt: "주문한 거 언제 와요?" },
-  { label: "작가 무응답", prompt: "작가가 답이 없어요." },
-  { label: "작품 하자", prompt: "받은 작품에 금이 갔어요." },
-  { label: "교환", prompt: "사이즈 다른 색으로 바꿀 수 있나요?" },
-  { label: "선물 옵션", prompt: "선물 카드 메시지 추가 가능해요?" },
-  { label: "부분 환불", prompt: "절반만 환불받을 수 있을까요?" },
+  { label: "환불", icon: "💸", prompt: "주문한 컵 환불하고 싶어요." },
+  { label: "선물 추천", icon: "🎁", prompt: "엄마 환갑 선물 추천해줘." },
+  { label: "배송", icon: "📦", prompt: "주문한 거 언제 와요?" },
+  { label: "작가 무응답", icon: "👤", prompt: "작가가 답이 없어요." },
+  { label: "작품 하자", icon: "🔧", prompt: "받은 작품에 금이 갔어요." },
+  { label: "교환", icon: "🔄", prompt: "사이즈 다른 색으로 바꿀 수 있나요?" },
+  { label: "선물 옵션", icon: "🎀", prompt: "선물 카드 메시지 추가 가능해요?" },
+  { label: "부분 환불", icon: "💰", prompt: "절반만 환불받을 수 있을까요?" },
 ];
 
 interface Props {
@@ -48,30 +48,39 @@ export function ChatPanel({ onMessages }: Props) {
   };
 
   return (
-    <div className="flex flex-col h-full min-w-0 bg-white shadow-sm border border-gray-200 rounded-xl overflow-hidden">
-      <div className="bg-blue-600 text-white h-12 px-4 flex items-center rounded-t-xl shrink-0">
-        <h2 className="font-semibold text-sm sm:text-base lg:text-lg">고객 화면</h2>
-        <span className="ml-auto text-xs font-light opacity-90 truncate">
-          안녕하세요, <span className="font-medium">{userLabel}</span>
+    <div className="flex flex-col h-full min-w-0 bg-white shadow-sm border border-border rounded-xl overflow-hidden">
+      <header className="bg-white border-b border-border h-14 px-4 flex items-center rounded-t-xl shrink-0">
+        <h2 className="font-semibold text-base flex items-center gap-2">
+          <span className="text-primary text-lg tracking-tight">idus</span>
+          <span className="text-muted-foreground text-xs font-normal">CS Agent · 시연</span>
+        </h2>
+        <span className="ml-auto flex items-center gap-2 text-sm">
+          <span className="w-7 h-7 rounded-full bg-accent text-accent-foreground flex items-center justify-center text-xs font-medium">
+            {currentUser?.nickname?.[0] ?? "G"}
+          </span>
+          <span className="font-medium text-foreground">{userLabel}</span>
         </span>
-      </div>
+      </header>
 
       <ScrollArea className="flex-1 min-h-0 p-4">
         {messages.length === 0 && (
-          <div className="flex flex-col items-center justify-center h-full text-center py-12">
-            <p className="text-gray-700 font-medium mb-1">
-              {currentUser ? `${currentUser.nickname}님, 어떤 도움이 필요하세요? 🎨` : "안녕하세요, 아이디어스 CS입니다 🎨"}
+          <div className="flex flex-col items-center justify-center h-full text-center py-10">
+            <p className="text-foreground font-medium mb-1 text-base">
+              {currentUser ? `${currentUser.nickname}님, 어떤 도움이 필요하세요?` : "안녕하세요, 아이디어스 CS입니다"}
             </p>
-            <p className="text-sm text-gray-500 mb-6">환불 · 추천 · 배송 · 직접 상담을 도와드릴게요.</p>
+            <p className="text-sm text-muted-foreground mb-6">환불 · 추천 · 배송 · 직접 상담을 도와드릴게요.</p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full max-w-2xl">
               {STARTER_PROMPTS.map((s) => (
                 <button
                   key={s.label}
                   onClick={() => submit(s.prompt)}
-                  className="text-left px-3 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 text-sm min-w-0"
+                  className="text-left p-3 rounded-lg border border-border bg-white hover:border-primary hover:shadow-sm transition-all text-sm min-w-0"
                 >
-                  <div className="font-medium">{s.label}</div>
-                  <div className="text-xs text-gray-500 truncate">{s.prompt}</div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-base leading-none">{s.icon}</span>
+                    <div className="font-medium text-foreground">{s.label}</div>
+                  </div>
+                  <div className="text-xs text-muted-foreground truncate">{s.prompt}</div>
                 </button>
               ))}
             </div>
@@ -83,7 +92,7 @@ export function ChatPanel({ onMessages }: Props) {
             <MessageBubble key={m.id} message={m} />
           ))}
           {isStreaming && (
-            <div className="text-xs text-gray-400 italic">에이전트가 도구를 호출하는 중…</div>
+            <div className="text-xs text-muted-foreground italic">에이전트가 도구를 호출하는 중…</div>
           )}
         </div>
       </ScrollArea>
@@ -93,13 +102,14 @@ export function ChatPanel({ onMessages }: Props) {
           e.preventDefault();
           submit(input);
         }}
-        className="border-t p-3 flex gap-2 shrink-0"
+        className="border-t border-border p-3 flex gap-2 shrink-0 bg-white"
       >
         <Input
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="환불 · 추천 · 배송 — 자연스럽게 입력하세요"
           disabled={isStreaming}
+          className="bg-background"
         />
         <Button type="submit" disabled={isStreaming || !input.trim()} size="icon" aria-label="전송">
           <Send className="h-4 w-4" />
@@ -123,18 +133,20 @@ function MessageBubble({ message }: { message: UIMessage }) {
         className={[
           "rounded-2xl px-4 py-2 max-w-[85%] text-sm leading-relaxed",
           "min-w-0 break-words [overflow-wrap:anywhere]",
-          isUser ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-900",
+          isUser
+            ? "bg-[hsl(28_100%_91%)] text-foreground"
+            : "bg-[hsl(0_0%_97%)] text-foreground",
         ].join(" ")}
       >
         {!isUser && toolPartCount > 0 && (
-          <div className="mb-2 text-xs text-gray-500 italic">
-            🔧 {toolPartCount}개 도구 호출 (우측 트레이스 패널 참조)
+          <div className="mb-2 text-xs text-muted-foreground italic">
+            🔧 {toolPartCount}개 도구 호출 (좌측 시연 콘솔 참조)
           </div>
         )}
         {isUser ? (
           <div className="whitespace-pre-wrap">{text}</div>
         ) : (
-          <div className="prose prose-sm max-w-none break-words">
+          <div className="prose prose-sm max-w-none break-words prose-headings:text-foreground prose-strong:text-foreground prose-p:text-foreground">
             <ReactMarkdown
               components={{
                 pre: PreBlock,
@@ -142,7 +154,7 @@ function MessageBubble({ message }: { message: UIMessage }) {
                 blockquote: ({ children, ...props }) => (
                   <blockquote
                     {...props}
-                    className="border-l-2 border-blue-500 pl-3 py-1 my-2 text-gray-600 bg-blue-50/40 rounded-r"
+                    className="border-l-4 border-primary pl-3 py-1 my-2 text-foreground bg-[hsl(28_100%_96%)] rounded-r"
                   >
                     {children}
                   </blockquote>
@@ -158,7 +170,6 @@ function MessageBubble({ message }: { message: UIMessage }) {
   );
 }
 
-// `pre > code` 코드블록 — sources JSON이면 <details>로 접기, 아니면 가로 스크롤.
 function PreBlock(props: ComponentProps<"pre">) {
   const child = Array.isArray(props.children) ? props.children[0] : props.children;
   const codeChild = child as { props?: { className?: string; children?: unknown } } | undefined;
@@ -170,29 +181,28 @@ function PreBlock(props: ComponentProps<"pre">) {
       const parsed = JSON.parse(text);
       if (parsed && typeof parsed === "object" && "sources" in parsed) {
         return (
-          <details className="my-2 not-prose text-xs text-gray-600">
-            <summary className="cursor-pointer select-none px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 inline-block">
+          <details className="my-2 not-prose text-xs text-muted-foreground">
+            <summary className="cursor-pointer select-none px-2 py-1 rounded bg-secondary hover:bg-accent inline-block">
               📋 sources 보기 (JSON)
             </summary>
-            <pre className="mt-1 bg-gray-50 rounded p-2 overflow-x-auto whitespace-pre-wrap break-all">
+            <pre className="mt-1 bg-secondary rounded p-2 overflow-x-auto whitespace-pre-wrap break-all">
               {JSON.stringify(parsed.sources, null, 2)}
             </pre>
           </details>
         );
       }
     } catch {
-      // 파싱 실패: 일반 코드블록으로
+      // 파싱 실패: 일반 코드블록
     }
   }
 
   return (
-    <pre {...props} className="overflow-x-auto bg-gray-100 rounded p-2 text-xs whitespace-pre-wrap break-all">
+    <pre {...props} className="overflow-x-auto bg-secondary rounded p-2 text-xs whitespace-pre-wrap break-all">
       {props.children}
     </pre>
   );
 }
 
 function InlineCode(props: ComponentProps<"code">) {
-  // pre 안의 code는 PreBlock에서 처리. 인라인 코드만 여기서.
-  return <code {...props} className="px-1 py-0.5 rounded bg-gray-200 text-xs break-all" />;
+  return <code {...props} className="px-1 py-0.5 rounded bg-secondary text-xs break-all" />;
 }

@@ -26,14 +26,18 @@ export function AgentPanel({ messages }: Props) {
   const sources = useMemo(() => extractLatestSources(messages), [messages]);
 
   return (
-    <div className="h-full min-w-0 flex flex-col border border-gray-200 bg-white rounded-xl shadow-sm overflow-hidden">
-      <div className="bg-blue-600 text-white h-12 px-4 flex items-center gap-3 rounded-t-xl shrink-0">
-        <Bot className="h-5 w-5" />
-        <h1 className="font-semibold text-sm sm:text-base lg:text-lg">에이전트 트레이스</h1>
-        <span className="ml-auto text-xs font-light opacity-80 truncate">아이디어스 CS · 단일 에이전트</span>
-      </div>
+    <div className="h-full min-w-0 flex flex-col border border-border bg-white rounded-xl shadow-sm overflow-hidden">
+      <header className="bg-white border-b border-border h-14 px-4 flex flex-col justify-center rounded-t-xl shrink-0">
+        <div className="flex items-center gap-2">
+          <Bot className="h-4 w-4 text-primary" />
+          <h1 className="font-semibold text-sm sm:text-base text-foreground">시연 콘솔 (평가자용)</h1>
+        </div>
+        <p className="text-[10px] text-muted-foreground mt-0.5">
+          이 패널은 평가자용 시연 콘솔입니다 · 일반 사용자에게는 노출되지 않습니다
+        </p>
+      </header>
 
-      <ScrollArea className="flex-1 min-h-0 p-4 bg-gray-50/50">
+      <ScrollArea className="flex-1 min-h-0 p-4 bg-background">
         <div className="space-y-4 min-w-0">
           <ToolsCard />
           <TraceTimeline events={events} />
