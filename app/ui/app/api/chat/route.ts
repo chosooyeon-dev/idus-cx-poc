@@ -5,11 +5,10 @@ import { allTools } from "@/lib/tools";
 export const maxDuration = 30;
 
 // OpenRouter는 OpenAI Chat Completions API만 호환. Responses API(OpenAI 호스팅 전용)는 미지원.
-// compatibility:"compatible"로 default를 chat completions에 두고, .chat()로 명시 호출.
+// 모델 생성 시 .chat()을 명시해 Chat Completions API로 강제합니다.
 const openrouter = createOpenAI({
   baseURL: process.env.OPENROUTER_BASE_URL ?? "https://openrouter.ai/api/v1",
   apiKey: process.env.OPENROUTER_API_KEY,
-  compatibility: "compatible",
 });
 
 const SYSTEM_PROMPT = `당신은 아이디어스 핸드메이드 마켓플레이스의 CS 에이전트입니다.
