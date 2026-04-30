@@ -2,7 +2,7 @@
 
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
-import { Send } from "lucide-react";
+import { RotateCcw, Send } from "lucide-react";
 import { useEffect, useState, type ComponentProps } from "react";
 import ReactMarkdown from "react-markdown";
 
@@ -69,11 +69,51 @@ interface Props {
 import { createContext, useContext } from "react";
 const SendMessageContext = createContext<((text: string) => void) | null>(null);
 
+const STORAGE_KEY = "idus-cx-messages";
+const TTL_MS = 5 * 60 * 1000; // 5분
+
 export function ChatPanel({ onMessages }: Props) {
   const [input, setInput] = useState("");
-  const { messages, sendMessage, status } = useChat({
+  const { messages, sendMessage, setMessages, status } = useChat({
     transport: new DefaultChatTransport({ api: "/api/chat" }),
   });
+
+  // 1. 첫 마운트 시 localStorage에서 5분 이내 대화 복원
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const { messages: saved, savedAt } = JSON.parse(raw) as {
+        messages: UIMessage[];
+        savedAt: number;
+      };
+      if (Date.now() - savedAt > TTL_MS) {
+        localStorage.removeItem(STORAGE_KEY);
+        return;
+      }
+      if (Array.isArray(saved) && saved.length > 0) {
+        setMessages(saved);
+      }
+    } catch {
+      // 파싱 실패 — 무시
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // 2. messages 변경 시 자동 저장 (timestamp 포함)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (messages.length === 0) return;
+    try {
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ messages, savedAt: Date.now() })
+      );
+    } catch {
+      // quota exceeded — 무시
+    }
+  }, [messages]);
 
   useEffect(() => {
     onMessages(messages);
@@ -91,6 +131,14 @@ export function ChatPanel({ onMessages }: Props) {
 
   const submitText = (text: string) => submit(text);
 
+  // 3. 대화 초기화 — localStorage clear + messages 비움
+  const resetConversation = () => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem(STORAGE_KEY);
+    }
+    setMessages([]);
+  };
+
   return (
     <SendMessageContext.Provider value={submitText}>
     <div className="flex flex-col h-full min-w-0 bg-white shadow-sm border border-border rounded-xl overflow-hidden">
@@ -104,6 +152,16 @@ export function ChatPanel({ onMessages }: Props) {
             {currentUser?.nickname?.[0] ?? "G"}
           </span>
           <span className="font-medium text-foreground">{userLabel}</span>
+          {messages.length > 0 && (
+            <button
+              onClick={resetConversation}
+              title="대화 초기화"
+              aria-label="대화 초기화"
+              className="ml-1 p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+            >
+              <RotateCcw className="h-4 w-4" />
+            </button>
+          )}
         </span>
       </header>
 
@@ -152,7 +210,7 @@ export function ChatPanel({ onMessages }: Props) {
         <Input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="환불 · 추천 · 배송 — 자연스럽게 입력하세요"
+          placeholder="무엇이든 물어보세요"
           disabled={isStreaming}
           className="bg-background"
         />
