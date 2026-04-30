@@ -303,27 +303,45 @@ export const track_shipping = tool({
   },
 });
 
-// 이슈 타입별 담당 부서·평균 대기시간 매핑 (시연용 합성)
+// 이슈 타입별 담당 부서·평균 대기시간 매핑 (idus 매크로 분석 기반)
 const ESCALATION_ROUTING: Record<string, { department: string; avg_wait_min: number }> = {
-  defect: { department: "작품 검수팀", avg_wait_min: 7 },        // 작품 하자
-  artist_unresponsive: { department: "작가 관리팀", avg_wait_min: 10 },  // 작가 무응답
-  legal: { department: "분쟁 해결팀", avg_wait_min: 15 },          // 법적 위협
-  emotion: { department: "VIP 케어팀", avg_wait_min: 5 },          // 감정 격앙
-  human_review: { department: "CS 매니저팀", avg_wait_min: 8 },    // 룰엔진 human_review
+  defect: { department: "작품 검수팀", avg_wait_min: 7 },          // 작품 하자
+  artist_unresponsive: { department: "작가 관리팀", avg_wait_min: 10 }, // 작가 무응답
+  legal: { department: "분쟁 해결팀", avg_wait_min: 15 },           // 법적 위협·직거래 신고
+  emotion: { department: "VIP 케어팀", avg_wait_min: 5 },           // 감정 격앙
+  human_review: { department: "CS 매니저팀", avg_wait_min: 8 },     // 룰엔진 human_review
+  payment_inquiry: { department: "정산·증빙팀", avg_wait_min: 10 }, // 영수증·거래명세서·미구매 결제
   general: { department: "CS 일반팀", avg_wait_min: 5 },
 };
 
 export const escalate_to_human = tool({
   description:
-    "**[필수 호출 — Discovery 후]** 사람 이관 의도가 보이면 먼저 collected_info의 모든 필드를 채울 수 있도록 " +
-    "사용자에게 1~3개의 추가 질문을 해서 정보를 수집한 뒤 이 도구를 호출하세요. " +
-    "정보 수집 없이 즉시 호출 금지. 단, 사용자가 이미 충분한 정보를 한 번에 준 경우는 바로 호출 가능. " +
-    "절대 ticket_id, department, avg_wait_min을 LLM 지식으로 만들지 말고, 이 도구의 결과 값을 그대로 응답에 사용하세요. " +
-    "issue_type 분류: 'defect'(작품 하자) / 'artist_unresponsive'(작가 무응답) / 'legal'(법적 위협) / " +
-    "'emotion'(감정 격앙) / 'human_review'(룰엔진 결과) / 'general'.",
+    "**[필수 호출 — Discovery 후]** 진짜 idus 채널톡 매크로 [채팅상담 연결] 트리거에 해당하면 호출. " +
+    "Discovery dialog로 collected_info 수집 후에만 호출. 즉시 호출 금지. " +
+    "절대 ticket_id, department, avg_wait_min을 LLM 지식으로 만들지 말고 도구 결과 그대로 사용. " +
+    "\n\n**9개 트리거 케이스** (idus 매크로 분석 §3):\n" +
+    "1. 가입 정보 확인·삭제 요청 (회원가입 안 됨) — issue_type='general'\n" +
+    "2. d+ 멤버십 7일 경과 해지 — issue_type='general'\n" +
+    "3. 결제영수증 자체 조회 안 됨 — issue_type='payment_inquiry'\n" +
+    "4. 거래명세서 발급 (서류 작성 필요) — issue_type='payment_inquiry'\n" +
+    "5. 미구매 결제 알림 (사기·도용 의심) — issue_type='payment_inquiry'\n" +
+    "6. 작가의 시작 가입·비밀번호·기타 오류 — issue_type='general'\n" +
+    "7. 받은 선물함 선물 누락 (계정 매칭 필요) — issue_type='general'\n" +
+    "8. 직거래 신고 (즉시 신고) — issue_type='legal'\n" +
+    "9. 시스템 오류 — issue_type='general'\n" +
+    "추가: 작품 하자→'defect', 작가 무응답→'artist_unresponsive', 강한 감정→'emotion', 룰엔진 human_review→'human_review'.\n\n" +
+    "**공통 수집 정보** (idus 매크로 패턴): 계정 이메일·연락처, 발생 일시·경로·현상, (필요시) 영상·사진·승인번호.",
   inputSchema: z.object({
     issue_type: z
-      .enum(["defect", "artist_unresponsive", "legal", "emotion", "human_review", "general"])
+      .enum([
+        "defect",
+        "artist_unresponsive",
+        "legal",
+        "emotion",
+        "human_review",
+        "payment_inquiry",
+        "general",
+      ])
       .describe("이슈 카테고리 — 부서 라우팅과 대기시간 결정"),
     reason: z.string().describe("이관 사유 한 줄 요약"),
     conv_summary: z.string().describe("매니저가 컨텍스트를 빠르게 잡을 수 있는 1-3문장 요약 (지금까지 대화에서 추출)"),
