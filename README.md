@@ -5,7 +5,10 @@
 > **본 시연은 지원자 개인 포트폴리오이며, ㈜아이디어스의 공식 프로젝트가 아닙니다.**
 
 ## 라이브 URL
-[배포 URL — Vercel 배포 후 채워넣음]
+
+🔗 **https://idus-cx-fgvlfsb4l-a01039026433-5018s-projects.vercel.app/**
+
+> Vercel 단일 프로젝트 배포. Deployment Protection 해제, 시크릿 모드 외부 접근 검증 완료.
 
 ## 핵심 가치 3개
 
