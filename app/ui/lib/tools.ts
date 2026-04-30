@@ -460,12 +460,52 @@ export const lookup_faq = tool({
   },
 });
 
+// ---------------------------------------------------------------------------
+// Payment history (idus 매크로 §[오류·장애] 자동 조회용)
+// ---------------------------------------------------------------------------
+
+interface PaymentRecord {
+  payment_id: string;
+  user_id: string;
+  amount: number;
+  method: string;
+  date: string;
+  status: string;
+  order_id: string | null;
+  merchant_label: string;
+}
+
+const SAMPLE_PAYMENTS: PaymentRecord[] = [
+  { payment_id: "P001", user_id: "u01", amount: 320000, method: "신용카드(현대)", date: "2026-04-17", status: "결제완료", order_id: "1234", merchant_label: "아이디어스" },
+  { payment_id: "P002", user_id: "u01", amount: 32000,  method: "네이버페이",     date: "2026-04-25", status: "결제완료", order_id: "1002", merchant_label: "아이디어스" },
+  { payment_id: "P003", user_id: "u01", amount: 28000,  method: "신용카드(현대)", date: "2026-04-22", status: "결제완료", order_id: "1001", merchant_label: "아이디어스" },
+  { payment_id: "P004", user_id: "u01", amount: 9600,   method: "신용카드(현대)", date: "2026-04-01", status: "결제완료", order_id: null,  merchant_label: "(주)백패커 d+멤버십" },
+  { payment_id: "P005", user_id: "u01", amount: 25000,  method: "카카오페이",     date: "2026-04-10", status: "결제완료", order_id: null,  merchant_label: "텀블벅 (동일사업자)" },
+];
+
+export const lookup_payment_history = tool({
+  description:
+    "**[자동 호출 — 결제 오류·미구매 결제 알림 시 즉시]** 유저의 최근 결제 내역을 조회합니다. " +
+    "'결제가 잘못된 것 같아요', '주문 안 했는데 결제 알림이 왔어요', '2,000원/9,600원 결제됐어요' 같은 발화 시 " +
+    "사용자에게 묻기 전에 먼저 이 도구로 결제 내역을 조회하세요. " +
+    "merchant_label이 '텀블벅'·'(주)백패커 d+멤버십' 등이면 '동일 사업자에서 결제된 건' 안내. " +
+    "내역에 없는 결제만 escalate_to_human 호출 (issue_type='payment_inquiry').",
+  inputSchema: z.object({
+    user_id: z.string(),
+    days: z.number().int().default(30).describe("최근 N일 (기본 30)"),
+  }),
+  execute: async ({ user_id }) => {
+    return SAMPLE_PAYMENTS.filter((p) => p.user_id === user_id);
+  },
+});
+
 export const allTools = {
   lookup_user,
   get_user_orders,
   lookup_order,
   lookup_artist,
   lookup_faq,
+  lookup_payment_history,
   refund_policy_engine,
   recommend_gift,
   track_shipping,

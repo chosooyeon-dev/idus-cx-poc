@@ -6,6 +6,7 @@ import { Send } from "lucide-react";
 import { useEffect, useState, type ComponentProps } from "react";
 import ReactMarkdown from "react-markdown";
 
+import { OrderCard, type OrderCardData } from "@/components/order-card";
 import { ProductCard, type ProductCardData } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +15,19 @@ import artistsData from "@/data/artists.json";
 import productsData from "@/data/products.json";
 import usersData from "@/data/users.json";
 import { DEFAULT_USER_ID } from "@/lib/tools";
+
+// 주문 ID → OrderCardData 매핑 (chat-panel 안에서 sources.order_ids로 lookup)
+const SAMPLE_ORDER_DATA: Record<string, OrderCardData> = {
+  "1001": { order_id: "1001", item_name: "우유빛 도자 머그", price: 28000, artist_name: "정도연", stage: "in_production", ordered_at: "2026-04-22", image_url: "https://picsum.photos/seed/p001/800/450" },
+  "1002": { order_id: "1002", item_name: "시그니처 향초 - 우드", price: 32000, artist_name: "윤하은", stage: "pre_shipment", ordered_at: "2026-04-25", image_url: "https://picsum.photos/seed/p014/800/450" },
+  "1003": { order_id: "1003", item_name: "미니멀 가죽 카드지갑", price: 45000, artist_name: "한태경", stage: "delivered", ordered_at: "2026-04-15", image_url: "https://picsum.photos/seed/p009/800/450" },
+  "1004": { order_id: "1004", item_name: "14k 미니 펜던트 목걸이", price: 168000, artist_name: "강민지", stage: "delivered", ordered_at: "2026-04-22", image_url: "https://picsum.photos/seed/p029/800/450" },
+  "1005": { order_id: "1005", item_name: "손뜨개 블랭킷(베이비)", price: 145000, artist_name: "임수빈", stage: "in_production", ordered_at: "2026-04-18", image_url: "https://picsum.photos/seed/p022/800/450" },
+  "1006": { order_id: "1006", item_name: "인물 초상 일러스트(A4)", price: 280000, artist_name: "권은채", stage: "pre_production", ordered_at: "2026-04-29", image_url: "https://picsum.photos/seed/p042/800/450" },
+  "1007": { order_id: "1007", item_name: "천연비누 5종 세트", price: 32000, artist_name: "박세린", stage: "delivered", ordered_at: "2026-04-20", image_url: "https://picsum.photos/seed/p034/800/450" },
+  "1008": { order_id: "1008", item_name: "청자 다완", price: 285000, artist_name: "서가람", stage: "pre_shipment", ordered_at: "2026-04-16", image_url: "https://picsum.photos/seed/p049/800/450" },
+  "1234": { order_id: "1234", item_name: "손빚은 백자 화병", price: 320000, artist_name: "정도연", stage: "in_production", ordered_at: "2026-04-17", image_url: "https://picsum.photos/seed/p003/800/450" },
+};
 
 // idus 채널톡 매크로 분석 §4 starter prompt 재조정안 그대로
 const STARTER_PROMPTS = [
@@ -51,6 +65,10 @@ interface Props {
   onMessages: (messages: UIMessage[]) => void;
 }
 
+// React Context로 sendMessage를 OrderCard까지 전달 (props drilling 회피)
+import { createContext, useContext } from "react";
+const SendMessageContext = createContext<((text: string) => void) | null>(null);
+
 export function ChatPanel({ onMessages }: Props) {
   const [input, setInput] = useState("");
   const { messages, sendMessage, status } = useChat({
@@ -71,7 +89,10 @@ export function ChatPanel({ onMessages }: Props) {
     setInput("");
   };
 
+  const submitText = (text: string) => submit(text);
+
   return (
+    <SendMessageContext.Provider value={submitText}>
     <div className="flex flex-col h-full min-w-0 bg-white shadow-sm border border-border rounded-xl overflow-hidden">
       <header className="bg-white border-b border-border h-14 px-4 flex items-center rounded-t-xl shrink-0">
         <h2 className="font-semibold text-base flex items-center gap-2">
@@ -140,6 +161,7 @@ export function ChatPanel({ onMessages }: Props) {
         </Button>
       </form>
     </div>
+    </SendMessageContext.Provider>
   );
 }
 
@@ -151,15 +173,18 @@ function MessageBubble({ message }: { message: UIMessage }) {
     .join("");
   const toolPartCount = message.parts.filter((p) => p.type.startsWith("tool-")).length;
 
-  // 응답 sources에서 product_ids 추출 → ProductCard 3개 렌더
+  // 응답 sources에서 product_ids / order_ids 추출
   let productIds: string[] = [];
+  let orderIds: string[] = [];
   if (!isUser) {
     const match = text.match(/```json\s*([\s\S]*?)\s*```/);
     if (match) {
       try {
         const parsed = JSON.parse(match[1]);
-        const ids = parsed?.sources?.product_ids;
-        if (Array.isArray(ids)) productIds = ids.filter((x): x is string => typeof x === "string");
+        const pids = parsed?.sources?.product_ids;
+        const oids = parsed?.sources?.order_ids;
+        if (Array.isArray(pids)) productIds = pids.filter((x): x is string => typeof x === "string");
+        if (Array.isArray(oids)) orderIds = oids.filter((x): x is string => typeof x === "string");
       } catch {
         // ignore parse error
       }
@@ -169,6 +194,12 @@ function MessageBubble({ message }: { message: UIMessage }) {
   const cards = productIds
     .map((id) => lookupCardData(id))
     .filter((c): c is ProductCardData => c !== null);
+
+  const orderCards = orderIds
+    .map((id) => SAMPLE_ORDER_DATA[id])
+    .filter((c): c is OrderCardData => c !== undefined);
+
+  const sendMessageFromCtx = useContext(SendMessageContext);
 
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"} ${isUser ? "" : "flex-col items-start"}`}>
@@ -210,11 +241,26 @@ function MessageBubble({ message }: { message: UIMessage }) {
         )}
       </div>
 
-      {/* 추천 카드 — sources.product_ids 있으면 자동 렌더 */}
+      {/* 추천 카드 — sources.product_ids */}
       {!isUser && cards.length > 0 && (
         <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3 w-full max-w-3xl">
           {cards.map((c) => (
             <ProductCard key={c.id} product={c} />
+          ))}
+        </div>
+      )}
+
+      {/* 주문 명확화 카드 — sources.order_ids */}
+      {!isUser && orderCards.length > 0 && (
+        <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2 w-full max-w-2xl">
+          {orderCards.map((o) => (
+            <OrderCard
+              key={o.order_id}
+              order={o}
+              onSelect={(order) =>
+                sendMessageFromCtx?.(`주문번호 ${order.order_id} (${order.item_name})로 진행해주세요.`)
+              }
+            />
           ))}
         </div>
       )}
