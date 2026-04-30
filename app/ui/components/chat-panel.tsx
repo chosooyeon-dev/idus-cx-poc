@@ -2,7 +2,7 @@
 
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
-import { RotateCcw, Send } from "lucide-react";
+import { RotateCcw, Send, ThumbsDown, ThumbsUp } from "lucide-react";
 import { useEffect, useState, type ComponentProps } from "react";
 import ReactMarkdown from "react-markdown";
 
@@ -71,6 +71,114 @@ const SendMessageContext = createContext<((text: string) => void) | null>(null);
 
 const STORAGE_KEY = "idus-cx-messages";
 const TTL_MS = 5 * 60 * 1000; // 5분
+const FEEDBACK_KEY = "idus-cx-feedback";
+
+interface FeedbackEntry {
+  messageId: string;
+  rating: "up" | "down";
+  timestamp: number;
+}
+
+function readFeedback(): FeedbackEntry[] {
+  if (typeof window === "undefined") return [];
+  try {
+    return JSON.parse(localStorage.getItem(FEEDBACK_KEY) ?? "[]");
+  } catch {
+    return [];
+  }
+}
+
+function FeedbackButtons({ messageId }: { messageId: string }) {
+  const [rated, setRated] = useState<null | "up" | "down">(null);
+  const [showToast, setShowToast] = useState(false);
+
+  useEffect(() => {
+    const existing = readFeedback().find((f) => f.messageId === messageId);
+    if (existing) setRated(existing.rating);
+  }, [messageId]);
+
+  const handleRate = (rating: "up" | "down") => {
+    if (rated) return;
+    if (typeof window !== "undefined") {
+      try {
+        const arr = readFeedback();
+        arr.push({ messageId, rating, timestamp: Date.now() });
+        localStorage.setItem(FEEDBACK_KEY, JSON.stringify(arr));
+        // 다른 컴포넌트(CSATCounter)에 알림
+        window.dispatchEvent(new Event("idus-cx-feedback-update"));
+      } catch {
+        // quota exceeded
+      }
+    }
+    setRated(rating);
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 1800);
+  };
+
+  return (
+    <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
+      <button
+        onClick={() => handleRate("up")}
+        disabled={rated !== null}
+        aria-label="도움됐어요"
+        className={`p-1 rounded transition-colors ${
+          rated === "up"
+            ? "text-primary"
+            : "hover:text-foreground hover:bg-secondary disabled:opacity-50"
+        }`}
+      >
+        <ThumbsUp className="h-3.5 w-3.5" />
+      </button>
+      <button
+        onClick={() => handleRate("down")}
+        disabled={rated !== null}
+        aria-label="아쉬워요"
+        className={`p-1 rounded transition-colors ${
+          rated === "down"
+            ? "text-destructive"
+            : "hover:text-foreground hover:bg-secondary disabled:opacity-50"
+        }`}
+      >
+        <ThumbsDown className="h-3.5 w-3.5" />
+      </button>
+      {showToast && <span className="text-[11px] italic">피드백 감사합니다</span>}
+    </div>
+  );
+}
+
+function CSATCounter() {
+  const [stats, setStats] = useState({ up: 0, down: 0 });
+
+  useEffect(() => {
+    const update = () => {
+      const arr = readFeedback();
+      setStats({
+        up: arr.filter((f) => f.rating === "up").length,
+        down: arr.filter((f) => f.rating === "down").length,
+      });
+    };
+    update();
+    const handler = () => update();
+    window.addEventListener("idus-cx-feedback-update", handler);
+    window.addEventListener("storage", handler);
+    return () => {
+      window.removeEventListener("idus-cx-feedback-update", handler);
+      window.removeEventListener("storage", handler);
+    };
+  }, []);
+
+  const total = stats.up + stats.down;
+  if (total === 0) return null;
+  const csat = Math.round((stats.up / total) * 100);
+  return (
+    <span
+      className="text-[11px] text-muted-foreground"
+      title={`CSAT proxy = up / (up + down) = ${stats.up}/${total}`}
+    >
+      👍 {stats.up} · 👎 {stats.down} · CSAT {csat}%
+    </span>
+  );
+}
 
 export function ChatPanel({ onMessages }: Props) {
   const [input, setInput] = useState("");
@@ -152,6 +260,7 @@ export function ChatPanel({ onMessages }: Props) {
             {currentUser?.nickname?.[0] ?? "G"}
           </span>
           <span className="font-medium text-foreground">{userLabel}</span>
+          <CSATCounter />
           {messages.length > 0 && (
             <button
               onClick={resetConversation}
@@ -298,6 +407,9 @@ function MessageBubble({ message }: { message: UIMessage }) {
           </div>
         )}
       </div>
+
+      {/* thumbs up/down — 에이전트 응답에만, 텍스트 있을 때만 */}
+      {!isUser && text.trim().length > 20 && <FeedbackButtons messageId={message.id} />}
 
       {/* 추천 카드 — sources.product_ids */}
       {!isUser && cards.length > 0 && (
