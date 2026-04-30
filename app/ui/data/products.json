@@ -1,52 +1,755 @@
 [
-  {"id":"p001","name":"우유빛 도자 머그","category":"도자기","price":28000,"artist_id":"a01","rating":4.8,"reviews":214,"tags":["일상","선물"],"description":"은은한 우유빛이 도는 손빚은 도자 머그. 일상의 차 한 잔을 따뜻하게 만들어주는 무던하고 단정한 디자인이라 자취 시작한 친구나 동료에게 부담 없이 건네기 좋습니다."},
-  {"id":"p002","name":"무광 검정 찻잔 세트(2p)","category":"도자기","price":54000,"artist_id":"a01","rating":4.7,"reviews":98,"tags":["다도","선물"],"description":"무광 흑유로 차의 색이 더 깊어 보이는 찻잔 한 쌍. 다도 입문자나 차를 좋아하는 부모님께 드리기에 딱 알맞은 분위기입니다."},
-  {"id":"p003","name":"손빚은 백자 화병","category":"도자기","price":320000,"artist_id":"a01","rating":4.9,"reviews":47,"tags":["환갑","고급","선물"],"description":"전통 백자의 단정한 곡선미가 살아있는 작가의 시그니처 화병. 거실이나 다실에 두면 공간 분위기를 격조 있게 만들어주어 환갑·칠순·고희 같은 어른께 드리는 의미 있는 선물로 손색 없습니다."},
-  {"id":"p004","name":"유백 도자 면기","category":"도자기","price":18000,"artist_id":"a01","rating":4.6,"reviews":156,"tags":["일상"],"description":"한 그릇이 식탁의 격을 올려주는 단단한 손빚은 면기. 일상용으로 부담 없는 가격대라 자취 친구나 본인 살림 장만에 좋습니다."},
-  {"id":"p005","name":"청화 도자 종지(3p)","category":"도자기","price":42000,"artist_id":"a01","rating":4.7,"reviews":88,"tags":["다도","집들이"],"description":"청화 무늬가 단정한 종지 3종 세트. 다도 자리나 한식 상차림에 자연스럽게 어울려 집들이·결혼 선물로 환영받습니다."},
-  {"id":"p006","name":"백자 향꽂이","category":"도자기","price":35000,"artist_id":"a01","rating":4.8,"reviews":62,"tags":["인테리어"],"description":"미니멀한 백자 향꽂이. 침실이나 서재의 인테리어 포인트로 잘 어울려 향을 즐기는 친구에게 좋은 선물이 됩니다."},
-  {"id":"p007","name":"손빚은 도자 다관","category":"도자기","price":285000,"artist_id":"a01","rating":4.9,"reviews":33,"tags":["환갑","다도","고급","선물"],"description":"다도의 깊이가 묻어나는 작가 시그니처 다관. 차를 좋아하는 어른께 드리기 적합해서 환갑·칠순 같은 큰 기념일에 의미를 담아 드릴 수 있습니다."},
-  {"id":"p008","name":"흑유 도자 막걸리잔 세트(4p)","category":"도자기","price":68000,"artist_id":"a01","rating":4.7,"reviews":71,"tags":["술","선물"],"description":"흑유 빛깔이 묵직한 막걸리잔 4잔 세트. 술 좋아하는 친구·아버지·장인어른께 드리기 좋은 분위기입니다."},
-  {"id":"p009","name":"미니멀 가죽 카드지갑","category":"가죽","price":45000,"artist_id":"a02","rating":4.6,"reviews":188,"tags":["선물","남성"],"description":"손에 쥐었을 때 묵직한 풀그레인 가죽 카드지갑. 미니멀한 디자인이라 남성·여성 누구나 데일리로 잘 쓰는 무난한 선물입니다."},
-  {"id":"p010","name":"가죽 키링(3색)","category":"가죽","price":18000,"artist_id":"a02","rating":4.5,"reviews":234,"tags":["일상"],"description":"일상에 작은 액센트가 되는 손바느질 가죽 키링 3색. 가격대가 가벼워서 답례품·동료 작은 선물에 두루 활용됩니다."},
-  {"id":"p011","name":"가죽 여권케이스","category":"가죽","price":78000,"artist_id":"a02","rating":4.7,"reviews":92,"tags":["여행","선물"],"description":"여행을 자주 다니는 분께 어울리는 풀그레인 가죽 여권케이스. 시간이 지날수록 길이 들면서 더 멋스러워지는 가죽 특유의 매력이 있습니다."},
-  {"id":"p012","name":"클래식 가죽 벨트","category":"가죽","price":95000,"artist_id":"a02","rating":4.6,"reviews":56,"tags":["남성","선물"],"description":"클래식한 갈색 가죽으로 만든 벨트. 정장과 캐주얼 둘 다에 잘 어울려서 남자친구·남편·아버지 선물로 안정적입니다."},
-  {"id":"p013","name":"가죽 손목지갑","category":"가죽","price":165000,"artist_id":"a02","rating":4.8,"reviews":41,"tags":["선물","고급"],"description":"카드와 현금을 깔끔하게 정리할 수 있는 손목 사이즈의 고급 가죽 지갑. 어머니·여성 친구·동료 윗사람 생신 선물에 격이 있습니다."},
-  {"id":"p014","name":"시그니처 향초 - 우드","category":"캔들","price":32000,"artist_id":"a03","rating":4.8,"reviews":412,"tags":["선물","집들이"],"description":"묵직한 우드향이 공간을 따뜻하게 채워주는 작가의 베스트셀러. 집들이·일상 작은 선물 어디에나 두루 어울리는 향입니다."},
-  {"id":"p015","name":"시그니처 향초 - 시트러스","category":"캔들","price":32000,"artist_id":"a03","rating":4.7,"reviews":358,"tags":["선물","집들이"],"description":"상큼한 시트러스 노트로 아침 분위기를 깨워주는 베스트셀러. 가벼운 친구 선물·집들이에 부담 없이 어울립니다."},
-  {"id":"p016","name":"룸 디퓨저 200ml","category":"캔들","price":58000,"artist_id":"a03","rating":4.7,"reviews":187,"tags":["인테리어","선물"],"description":"200ml 대용량 디퓨저로 거실 한쪽에 두면 한 달 가까이 향이 유지됩니다. 인테리어 오브제 겸용으로 좋아요."},
-  {"id":"p017","name":"트래블 캔들 3종 세트","category":"캔들","price":48000,"artist_id":"a03","rating":4.8,"reviews":274,"tags":["선물","여행"],"description":"작은 사이즈 트래블 캔들 3종 세트. 출장이나 여행을 자주 다니는 친구에게 의미 있는 선물입니다."},
-  {"id":"p018","name":"대형 향초(300g)","category":"캔들","price":88000,"artist_id":"a03","rating":4.6,"reviews":113,"tags":["인테리어"],"description":"300g 대형 캔들로 인테리어 오브제로도 충분한 존재감. 본인 공간을 꾸미는 분께 권할 만합니다."},
-  {"id":"p019","name":"캔들+디퓨저 기프트박스","category":"캔들","price":125000,"artist_id":"a03","rating":4.8,"reviews":89,"tags":["선물","집들이","고급"],"description":"캔들·디퓨저·카드까지 포함된 프리미엄 기프트박스. 결혼·집들이·승진 축하 같은 굵직한 선물 자리에 깔끔하게 어울립니다."},
-  {"id":"p020","name":"손뜨개 비니","category":"뜨개","price":38000,"artist_id":"a04","rating":4.5,"reviews":67,"tags":["겨울"],"description":"폭신한 메리노 울로 한 코 한 코 짠 비니. 겨울에 머리를 따뜻하게 감싸주는 데일리 아이템입니다."},
-  {"id":"p021","name":"모헤어 머플러","category":"뜨개","price":75000,"artist_id":"a04","rating":4.6,"reviews":88,"tags":["선물","겨울"],"description":"부드러운 모헤어로 짠 머플러. 가벼우면서도 따뜻해서 어머니·여성 친구의 겨울 선물로 환영받습니다."},
-  {"id":"p022","name":"손뜨개 블랭킷(베이비)","category":"뜨개","price":145000,"artist_id":"a04","rating":4.8,"reviews":52,"tags":["베이비","선물","고급"],"description":"100% 천연 면사로 한 코 한 코 짠 베이비 블랭킷. 자극이 없는 소재라 출산·돌 선물에 안심하고 드릴 수 있는 의미 있는 작품입니다."},
-  {"id":"p023","name":"손뜨개 인형 - 곰","category":"뜨개","price":42000,"artist_id":"a04","rating":4.7,"reviews":119,"tags":["선물","베이비"],"description":"손에 쏙 들어오는 사이즈의 곰 인형. 아이 선물·돌 답례품으로 따뜻하면서 너무 무겁지 않은 가격대입니다."},
-  {"id":"p024","name":"원목 도마(월넛)","category":"우드","price":65000,"artist_id":"a05","rating":4.7,"reviews":124,"tags":["집들이","선물"],"description":"단단한 월넛 통원목으로 만든 도마. 결혼·집들이 선물의 정석으로 누구에게나 무난하게 환영받습니다."},
-  {"id":"p025","name":"원목 트레이(오크)","category":"우드","price":85000,"artist_id":"a05","rating":4.6,"reviews":78,"tags":["집들이"],"description":"오크 원목 트레이 한 장으로 식탁 분위기가 한 단계 올라갑니다. 손님 초대 자주 하는 분께 좋아요."},
-  {"id":"p026","name":"손목시계 - 메이플","category":"우드","price":235000,"artist_id":"a05","rating":4.8,"reviews":38,"tags":["선물","고급","남성"],"description":"메이플 원목으로 만든 가벼운 손목시계. 아버지·남자친구·남편의 의미 있는 기념일 선물로 특별합니다."},
-  {"id":"p027","name":"원목 다용도 정리함","category":"우드","price":95000,"artist_id":"a05","rating":4.5,"reviews":91,"tags":["인테리어"],"description":"책상·화장대 정리에 깔끔한 원목 정리함. 자취 시작한 친구의 집들이 선물로 실용적입니다."},
-  {"id":"p028","name":"명패(각인)","category":"우드","price":38000,"artist_id":"a05","rating":4.6,"reviews":156,"tags":["선물","맞춤"],"description":"이름이나 문구를 각인할 수 있는 원목 명패. 승진·창업·졸업·취업 같은 시작 자리를 축하하는 의미 있는 선물입니다."},
-  {"id":"p029","name":"14k 미니 펜던트 목걸이","category":"액세서리","price":168000,"artist_id":"a06","rating":4.7,"reviews":213,"tags":["선물","여성","고급"],"description":"작은 14k 펜던트가 달린 데일리 목걸이. 부담 없이 매일 착용 가능해서 친구·여자친구·딸 선물에 무난하게 잘 받습니다."},
-  {"id":"p030","name":"자수 귀걸이","category":"액세서리","price":22000,"artist_id":"a06","rating":4.5,"reviews":287,"tags":["일상"],"description":"작가가 한 땀씩 수놓은 자수 귀걸이. 캐주얼·반바지 룩에 작은 포인트가 되는 가벼운 가격대 아이템."},
-  {"id":"p031","name":"실버 라인 반지","category":"액세서리","price":45000,"artist_id":"a06","rating":4.6,"reviews":162,"tags":["선물"],"description":"925 실버로 라인이 깔끔한 미니멀 반지. 데일리·우정템·커플템 어떤 자리에든 두루 어울립니다."},
-  {"id":"p032","name":"진주 한 알 목걸이","category":"액세서리","price":285000,"artist_id":"a06","rating":4.8,"reviews":67,"tags":["환갑","선물","고급","여성"],"description":"진주 한 알 펜던트로 단정한 분위기를 만들어주는 목걸이. 환갑·결혼식 어머니·시어머니께 격이 살아나는 선물입니다."},
-  {"id":"p033","name":"빈티지 브로치","category":"액세서리","price":38000,"artist_id":"a06","rating":4.5,"reviews":94,"tags":["선물"],"description":"빈티지 무드의 브로치 한 점. 외투에 꽂으면 분위기가 살아나는 어른 여성 선물에 좋습니다."},
-  {"id":"p034","name":"천연비누 5종 세트","category":"비누","price":32000,"artist_id":"a07","rating":4.6,"reviews":178,"tags":["선물","집들이"],"description":"향이 다른 5종 비누 세트. 집들이·결혼식 답례품에 부담 없는 가격대로 누구에게나 환영받는 무난한 선물입니다."},
-  {"id":"p035","name":"우유 비누(단품)","category":"비누","price":6000,"artist_id":"a07","rating":4.5,"reviews":412,"tags":["일상"],"description":"우유 성분이 들어간 부드러운 세안 비누. 가성비가 좋아서 본인 사용·가벼운 답례품에 두루 좋아요."},
-  {"id":"p036","name":"베이비 비누 4종 세트","category":"비누","price":28000,"artist_id":"a07","rating":4.7,"reviews":134,"tags":["베이비","선물"],"description":"자극이 적은 베이비 비누 4종. 출산 선물·돌 답례품으로 안전하게 권할 수 있는 가격대입니다."},
-  {"id":"p037","name":"욕실 향기 세트(비누+오일)","category":"비누","price":75000,"artist_id":"a07","rating":4.7,"reviews":89,"tags":["선물","집들이"],"description":"비누와 오일을 함께 담은 욕실 향기 세트. 집들이·미혼 친구 선물에 작가의 디테일이 돋보입니다."},
-  {"id":"p038","name":"손바느질 파우치","category":"패브릭","price":25000,"artist_id":"a08","rating":4.6,"reviews":87,"tags":["일상"],"description":"손바느질 디테일이 살아있는 파우치. 일상 잡템·여행 소품 정리에 두루 쓰는 실용 아이템."},
-  {"id":"p039","name":"린넨 앞치마","category":"패브릭","price":48000,"artist_id":"a08","rating":4.7,"reviews":64,"tags":["집들이","선물"],"description":"천연 린넨으로 만든 앞치마. 요리를 즐기는 친구나 어머니께 드리기 좋은 자연스러운 결의 선물."},
-  {"id":"p040","name":"패브릭 책커버","category":"패브릭","price":18000,"artist_id":"a08","rating":4.5,"reviews":142,"tags":["일상"],"description":"책 좋아하는 분께 한 장. 작은 가격대지만 책과 함께 일상에 따뜻함을 더해주는 선물입니다."},
-  {"id":"p041","name":"자수 손수건 5장 세트","category":"패브릭","price":35000,"artist_id":"a08","rating":4.7,"reviews":71,"tags":["선물","맞춤"],"description":"자수 손수건 5장 세트. 어른께 드리는 단정한 선물에 격이 있어 환갑·고희 같은 자리에도 어울립니다."},
-  {"id":"p042","name":"인물 초상 일러스트(A4 액자)","category":"일러스트","price":280000,"artist_id":"a09","rating":4.9,"reviews":28,"tags":["환갑","선물","고급","맞춤"],"description":"사진을 보내면 작가가 한 폭의 일러스트로 그려주는 맞춤 작품. 환갑·칠순·결혼기념일 같은 인생의 기념일에 가장 의미 있는 선물입니다."},
-  {"id":"p043","name":"가족 초상 일러스트(A3 액자)","category":"일러스트","price":480000,"artist_id":"a09","rating":4.9,"reviews":19,"tags":["환갑","선물","고급","맞춤"],"description":"가족 사진을 받아 A3 사이즈 일러스트로 다시 그려주는 작품. 부모님 환갑·고희·결혼기념일 선물의 정수로 평생 보관할 가치가 있는 선물입니다."},
-  {"id":"p044","name":"펫 초상 일러스트(A4)","category":"일러스트","price":220000,"artist_id":"a09","rating":4.8,"reviews":41,"tags":["선물","맞춤"],"description":"반려동물 사진을 일러스트로 다시 그려주는 작품. 펫을 가족처럼 여기는 친구에게 잊지 못할 선물이 됩니다."},
-  {"id":"p045","name":"풍경 원화(A3)","category":"일러스트","price":350000,"artist_id":"a09","rating":4.8,"reviews":22,"tags":["고급","인테리어"],"description":"작가가 직접 그린 A3 풍경 원화. 신혼집·서재 인테리어 포인트로 한 점이면 공간 무드가 달라집니다."},
-  {"id":"p046","name":"캘리그라피 한 줄(A4)","category":"일러스트","price":95000,"artist_id":"a09","rating":4.7,"reviews":78,"tags":["선물","맞춤"],"description":"좋아하는 문구 한 줄을 캘리그라피로 받아주는 작품. 결혼·생일·졸업처럼 한 마디가 마음을 움직이는 자리에 어울립니다."},
-  {"id":"p047","name":"손빚은 사발 한 쌍","category":"그릇","price":95000,"artist_id":"a10","rating":4.7,"reviews":56,"tags":["결혼","선물"],"description":"부부 한 쌍 손빚은 사발. 결혼·집들이 선물로 무난하게 환영받는 도자 작품입니다."},
-  {"id":"p048","name":"토기 접시 4p 세트","category":"그릇","price":128000,"artist_id":"a10","rating":4.6,"reviews":47,"tags":["집들이","결혼","선물"],"description":"토기 질감을 살린 4p 접시 세트. 식탁 분위기를 따뜻하고 자연스럽게 만들어주는 살림 선물입니다."},
-  {"id":"p049","name":"청자 다완","category":"그릇","price":285000,"artist_id":"a10","rating":4.8,"reviews":31,"tags":["환갑","선물","고급","다도"],"description":"청자 빛깔의 단정한 다완. 다도를 즐기는 어른께 환갑·고희 선물로 드리면 격조 있는 의미를 담을 수 있습니다."},
-  {"id":"p050","name":"손빚은 텀블러(2p)","category":"그릇","price":78000,"artist_id":"a10","rating":4.7,"reviews":64,"tags":["선물","일상"],"description":"일상용 손빚은 텀블러 한 쌍. 부부·커플의 데일리 살림 선물로 어울리는 가격대입니다."}
+  {
+    "id": "p001",
+    "name": "우유빛 도자 머그",
+    "category": "도자기",
+    "price": 28000,
+    "artist_id": "a01",
+    "rating": 4.8,
+    "reviews": 214,
+    "tags": [
+      "일상",
+      "선물"
+    ],
+    "description": "은은한 우유빛이 도는 손빚은 도자 머그. 일상의 차 한 잔을 따뜻하게 만들어주는 무던하고 단정한 디자인이라 자취 시작한 친구나 동료에게 부담 없이 건네기 좋습니다.",
+    "image_url": "https://picsum.photos/seed/p001/800/450"
+  },
+  {
+    "id": "p002",
+    "name": "무광 검정 찻잔 세트(2p)",
+    "category": "도자기",
+    "price": 54000,
+    "artist_id": "a01",
+    "rating": 4.7,
+    "reviews": 98,
+    "tags": [
+      "다도",
+      "선물"
+    ],
+    "description": "무광 흑유로 차의 색이 더 깊어 보이는 찻잔 한 쌍. 다도 입문자나 차를 좋아하는 부모님께 드리기에 딱 알맞은 분위기입니다.",
+    "image_url": "https://picsum.photos/seed/p002/800/450"
+  },
+  {
+    "id": "p003",
+    "name": "손빚은 백자 화병",
+    "category": "도자기",
+    "price": 320000,
+    "artist_id": "a01",
+    "rating": 4.9,
+    "reviews": 47,
+    "tags": [
+      "환갑",
+      "고급",
+      "선물"
+    ],
+    "description": "전통 백자의 단정한 곡선미가 살아있는 작가의 시그니처 화병. 거실이나 다실에 두면 공간 분위기를 격조 있게 만들어주어 환갑·칠순·고희 같은 어른께 드리는 의미 있는 선물로 손색 없습니다.",
+    "image_url": "https://picsum.photos/seed/p003/800/450"
+  },
+  {
+    "id": "p004",
+    "name": "유백 도자 면기",
+    "category": "도자기",
+    "price": 18000,
+    "artist_id": "a01",
+    "rating": 4.6,
+    "reviews": 156,
+    "tags": [
+      "일상"
+    ],
+    "description": "한 그릇이 식탁의 격을 올려주는 단단한 손빚은 면기. 일상용으로 부담 없는 가격대라 자취 친구나 본인 살림 장만에 좋습니다.",
+    "image_url": "https://picsum.photos/seed/p004/800/450"
+  },
+  {
+    "id": "p005",
+    "name": "청화 도자 종지(3p)",
+    "category": "도자기",
+    "price": 42000,
+    "artist_id": "a01",
+    "rating": 4.7,
+    "reviews": 88,
+    "tags": [
+      "다도",
+      "집들이"
+    ],
+    "description": "청화 무늬가 단정한 종지 3종 세트. 다도 자리나 한식 상차림에 자연스럽게 어울려 집들이·결혼 선물로 환영받습니다.",
+    "image_url": "https://picsum.photos/seed/p005/800/450"
+  },
+  {
+    "id": "p006",
+    "name": "백자 향꽂이",
+    "category": "도자기",
+    "price": 35000,
+    "artist_id": "a01",
+    "rating": 4.8,
+    "reviews": 62,
+    "tags": [
+      "인테리어"
+    ],
+    "description": "미니멀한 백자 향꽂이. 침실이나 서재의 인테리어 포인트로 잘 어울려 향을 즐기는 친구에게 좋은 선물이 됩니다.",
+    "image_url": "https://picsum.photos/seed/p006/800/450"
+  },
+  {
+    "id": "p007",
+    "name": "손빚은 도자 다관",
+    "category": "도자기",
+    "price": 285000,
+    "artist_id": "a01",
+    "rating": 4.9,
+    "reviews": 33,
+    "tags": [
+      "환갑",
+      "다도",
+      "고급",
+      "선물"
+    ],
+    "description": "다도의 깊이가 묻어나는 작가 시그니처 다관. 차를 좋아하는 어른께 드리기 적합해서 환갑·칠순 같은 큰 기념일에 의미를 담아 드릴 수 있습니다.",
+    "image_url": "https://picsum.photos/seed/p007/800/450"
+  },
+  {
+    "id": "p008",
+    "name": "흑유 도자 막걸리잔 세트(4p)",
+    "category": "도자기",
+    "price": 68000,
+    "artist_id": "a01",
+    "rating": 4.7,
+    "reviews": 71,
+    "tags": [
+      "술",
+      "선물"
+    ],
+    "description": "흑유 빛깔이 묵직한 막걸리잔 4잔 세트. 술 좋아하는 친구·아버지·장인어른께 드리기 좋은 분위기입니다.",
+    "image_url": "https://picsum.photos/seed/p008/800/450"
+  },
+  {
+    "id": "p009",
+    "name": "미니멀 가죽 카드지갑",
+    "category": "가죽",
+    "price": 45000,
+    "artist_id": "a02",
+    "rating": 4.6,
+    "reviews": 188,
+    "tags": [
+      "선물",
+      "남성"
+    ],
+    "description": "손에 쥐었을 때 묵직한 풀그레인 가죽 카드지갑. 미니멀한 디자인이라 남성·여성 누구나 데일리로 잘 쓰는 무난한 선물입니다.",
+    "image_url": "https://picsum.photos/seed/p009/800/450"
+  },
+  {
+    "id": "p010",
+    "name": "가죽 키링(3색)",
+    "category": "가죽",
+    "price": 18000,
+    "artist_id": "a02",
+    "rating": 4.5,
+    "reviews": 234,
+    "tags": [
+      "일상"
+    ],
+    "description": "일상에 작은 액센트가 되는 손바느질 가죽 키링 3색. 가격대가 가벼워서 답례품·동료 작은 선물에 두루 활용됩니다.",
+    "image_url": "https://picsum.photos/seed/p010/800/450"
+  },
+  {
+    "id": "p011",
+    "name": "가죽 여권케이스",
+    "category": "가죽",
+    "price": 78000,
+    "artist_id": "a02",
+    "rating": 4.7,
+    "reviews": 92,
+    "tags": [
+      "여행",
+      "선물"
+    ],
+    "description": "여행을 자주 다니는 분께 어울리는 풀그레인 가죽 여권케이스. 시간이 지날수록 길이 들면서 더 멋스러워지는 가죽 특유의 매력이 있습니다.",
+    "image_url": "https://picsum.photos/seed/p011/800/450"
+  },
+  {
+    "id": "p012",
+    "name": "클래식 가죽 벨트",
+    "category": "가죽",
+    "price": 95000,
+    "artist_id": "a02",
+    "rating": 4.6,
+    "reviews": 56,
+    "tags": [
+      "남성",
+      "선물"
+    ],
+    "description": "클래식한 갈색 가죽으로 만든 벨트. 정장과 캐주얼 둘 다에 잘 어울려서 남자친구·남편·아버지 선물로 안정적입니다.",
+    "image_url": "https://picsum.photos/seed/p012/800/450"
+  },
+  {
+    "id": "p013",
+    "name": "가죽 손목지갑",
+    "category": "가죽",
+    "price": 165000,
+    "artist_id": "a02",
+    "rating": 4.8,
+    "reviews": 41,
+    "tags": [
+      "선물",
+      "고급"
+    ],
+    "description": "카드와 현금을 깔끔하게 정리할 수 있는 손목 사이즈의 고급 가죽 지갑. 어머니·여성 친구·동료 윗사람 생신 선물에 격이 있습니다.",
+    "image_url": "https://picsum.photos/seed/p013/800/450"
+  },
+  {
+    "id": "p014",
+    "name": "시그니처 향초 - 우드",
+    "category": "캔들",
+    "price": 32000,
+    "artist_id": "a03",
+    "rating": 4.8,
+    "reviews": 412,
+    "tags": [
+      "선물",
+      "집들이"
+    ],
+    "description": "묵직한 우드향이 공간을 따뜻하게 채워주는 작가의 베스트셀러. 집들이·일상 작은 선물 어디에나 두루 어울리는 향입니다.",
+    "image_url": "https://picsum.photos/seed/p014/800/450"
+  },
+  {
+    "id": "p015",
+    "name": "시그니처 향초 - 시트러스",
+    "category": "캔들",
+    "price": 32000,
+    "artist_id": "a03",
+    "rating": 4.7,
+    "reviews": 358,
+    "tags": [
+      "선물",
+      "집들이"
+    ],
+    "description": "상큼한 시트러스 노트로 아침 분위기를 깨워주는 베스트셀러. 가벼운 친구 선물·집들이에 부담 없이 어울립니다.",
+    "image_url": "https://picsum.photos/seed/p015/800/450"
+  },
+  {
+    "id": "p016",
+    "name": "룸 디퓨저 200ml",
+    "category": "캔들",
+    "price": 58000,
+    "artist_id": "a03",
+    "rating": 4.7,
+    "reviews": 187,
+    "tags": [
+      "인테리어",
+      "선물"
+    ],
+    "description": "200ml 대용량 디퓨저로 거실 한쪽에 두면 한 달 가까이 향이 유지됩니다. 인테리어 오브제 겸용으로 좋아요.",
+    "image_url": "https://picsum.photos/seed/p016/800/450"
+  },
+  {
+    "id": "p017",
+    "name": "트래블 캔들 3종 세트",
+    "category": "캔들",
+    "price": 48000,
+    "artist_id": "a03",
+    "rating": 4.8,
+    "reviews": 274,
+    "tags": [
+      "선물",
+      "여행"
+    ],
+    "description": "작은 사이즈 트래블 캔들 3종 세트. 출장이나 여행을 자주 다니는 친구에게 의미 있는 선물입니다.",
+    "image_url": "https://picsum.photos/seed/p017/800/450"
+  },
+  {
+    "id": "p018",
+    "name": "대형 향초(300g)",
+    "category": "캔들",
+    "price": 88000,
+    "artist_id": "a03",
+    "rating": 4.6,
+    "reviews": 113,
+    "tags": [
+      "인테리어"
+    ],
+    "description": "300g 대형 캔들로 인테리어 오브제로도 충분한 존재감. 본인 공간을 꾸미는 분께 권할 만합니다.",
+    "image_url": "https://picsum.photos/seed/p018/800/450"
+  },
+  {
+    "id": "p019",
+    "name": "캔들+디퓨저 기프트박스",
+    "category": "캔들",
+    "price": 125000,
+    "artist_id": "a03",
+    "rating": 4.8,
+    "reviews": 89,
+    "tags": [
+      "선물",
+      "집들이",
+      "고급"
+    ],
+    "description": "캔들·디퓨저·카드까지 포함된 프리미엄 기프트박스. 결혼·집들이·승진 축하 같은 굵직한 선물 자리에 깔끔하게 어울립니다.",
+    "image_url": "https://picsum.photos/seed/p019/800/450"
+  },
+  {
+    "id": "p020",
+    "name": "손뜨개 비니",
+    "category": "뜨개",
+    "price": 38000,
+    "artist_id": "a04",
+    "rating": 4.5,
+    "reviews": 67,
+    "tags": [
+      "겨울"
+    ],
+    "description": "폭신한 메리노 울로 한 코 한 코 짠 비니. 겨울에 머리를 따뜻하게 감싸주는 데일리 아이템입니다.",
+    "image_url": "https://picsum.photos/seed/p020/800/450"
+  },
+  {
+    "id": "p021",
+    "name": "모헤어 머플러",
+    "category": "뜨개",
+    "price": 75000,
+    "artist_id": "a04",
+    "rating": 4.6,
+    "reviews": 88,
+    "tags": [
+      "선물",
+      "겨울"
+    ],
+    "description": "부드러운 모헤어로 짠 머플러. 가벼우면서도 따뜻해서 어머니·여성 친구의 겨울 선물로 환영받습니다.",
+    "image_url": "https://picsum.photos/seed/p021/800/450"
+  },
+  {
+    "id": "p022",
+    "name": "손뜨개 블랭킷(베이비)",
+    "category": "뜨개",
+    "price": 145000,
+    "artist_id": "a04",
+    "rating": 4.8,
+    "reviews": 52,
+    "tags": [
+      "베이비",
+      "선물",
+      "고급"
+    ],
+    "description": "100% 천연 면사로 한 코 한 코 짠 베이비 블랭킷. 자극이 없는 소재라 출산·돌 선물에 안심하고 드릴 수 있는 의미 있는 작품입니다.",
+    "image_url": "https://picsum.photos/seed/p022/800/450"
+  },
+  {
+    "id": "p023",
+    "name": "손뜨개 인형 - 곰",
+    "category": "뜨개",
+    "price": 42000,
+    "artist_id": "a04",
+    "rating": 4.7,
+    "reviews": 119,
+    "tags": [
+      "선물",
+      "베이비"
+    ],
+    "description": "손에 쏙 들어오는 사이즈의 곰 인형. 아이 선물·돌 답례품으로 따뜻하면서 너무 무겁지 않은 가격대입니다.",
+    "image_url": "https://picsum.photos/seed/p023/800/450"
+  },
+  {
+    "id": "p024",
+    "name": "원목 도마(월넛)",
+    "category": "우드",
+    "price": 65000,
+    "artist_id": "a05",
+    "rating": 4.7,
+    "reviews": 124,
+    "tags": [
+      "집들이",
+      "선물"
+    ],
+    "description": "단단한 월넛 통원목으로 만든 도마. 결혼·집들이 선물의 정석으로 누구에게나 무난하게 환영받습니다.",
+    "image_url": "https://picsum.photos/seed/p024/800/450"
+  },
+  {
+    "id": "p025",
+    "name": "원목 트레이(오크)",
+    "category": "우드",
+    "price": 85000,
+    "artist_id": "a05",
+    "rating": 4.6,
+    "reviews": 78,
+    "tags": [
+      "집들이"
+    ],
+    "description": "오크 원목 트레이 한 장으로 식탁 분위기가 한 단계 올라갑니다. 손님 초대 자주 하는 분께 좋아요.",
+    "image_url": "https://picsum.photos/seed/p025/800/450"
+  },
+  {
+    "id": "p026",
+    "name": "손목시계 - 메이플",
+    "category": "우드",
+    "price": 235000,
+    "artist_id": "a05",
+    "rating": 4.8,
+    "reviews": 38,
+    "tags": [
+      "선물",
+      "고급",
+      "남성"
+    ],
+    "description": "메이플 원목으로 만든 가벼운 손목시계. 아버지·남자친구·남편의 의미 있는 기념일 선물로 특별합니다.",
+    "image_url": "https://picsum.photos/seed/p026/800/450"
+  },
+  {
+    "id": "p027",
+    "name": "원목 다용도 정리함",
+    "category": "우드",
+    "price": 95000,
+    "artist_id": "a05",
+    "rating": 4.5,
+    "reviews": 91,
+    "tags": [
+      "인테리어"
+    ],
+    "description": "책상·화장대 정리에 깔끔한 원목 정리함. 자취 시작한 친구의 집들이 선물로 실용적입니다.",
+    "image_url": "https://picsum.photos/seed/p027/800/450"
+  },
+  {
+    "id": "p028",
+    "name": "명패(각인)",
+    "category": "우드",
+    "price": 38000,
+    "artist_id": "a05",
+    "rating": 4.6,
+    "reviews": 156,
+    "tags": [
+      "선물",
+      "맞춤"
+    ],
+    "description": "이름이나 문구를 각인할 수 있는 원목 명패. 승진·창업·졸업·취업 같은 시작 자리를 축하하는 의미 있는 선물입니다.",
+    "image_url": "https://picsum.photos/seed/p028/800/450"
+  },
+  {
+    "id": "p029",
+    "name": "14k 미니 펜던트 목걸이",
+    "category": "액세서리",
+    "price": 168000,
+    "artist_id": "a06",
+    "rating": 4.7,
+    "reviews": 213,
+    "tags": [
+      "선물",
+      "여성",
+      "고급"
+    ],
+    "description": "작은 14k 펜던트가 달린 데일리 목걸이. 부담 없이 매일 착용 가능해서 친구·여자친구·딸 선물에 무난하게 잘 받습니다.",
+    "image_url": "https://picsum.photos/seed/p029/800/450"
+  },
+  {
+    "id": "p030",
+    "name": "자수 귀걸이",
+    "category": "액세서리",
+    "price": 22000,
+    "artist_id": "a06",
+    "rating": 4.5,
+    "reviews": 287,
+    "tags": [
+      "일상"
+    ],
+    "description": "작가가 한 땀씩 수놓은 자수 귀걸이. 캐주얼·반바지 룩에 작은 포인트가 되는 가벼운 가격대 아이템.",
+    "image_url": "https://picsum.photos/seed/p030/800/450"
+  },
+  {
+    "id": "p031",
+    "name": "실버 라인 반지",
+    "category": "액세서리",
+    "price": 45000,
+    "artist_id": "a06",
+    "rating": 4.6,
+    "reviews": 162,
+    "tags": [
+      "선물"
+    ],
+    "description": "925 실버로 라인이 깔끔한 미니멀 반지. 데일리·우정템·커플템 어떤 자리에든 두루 어울립니다.",
+    "image_url": "https://picsum.photos/seed/p031/800/450"
+  },
+  {
+    "id": "p032",
+    "name": "진주 한 알 목걸이",
+    "category": "액세서리",
+    "price": 285000,
+    "artist_id": "a06",
+    "rating": 4.8,
+    "reviews": 67,
+    "tags": [
+      "환갑",
+      "선물",
+      "고급",
+      "여성"
+    ],
+    "description": "진주 한 알 펜던트로 단정한 분위기를 만들어주는 목걸이. 환갑·결혼식 어머니·시어머니께 격이 살아나는 선물입니다.",
+    "image_url": "https://picsum.photos/seed/p032/800/450"
+  },
+  {
+    "id": "p033",
+    "name": "빈티지 브로치",
+    "category": "액세서리",
+    "price": 38000,
+    "artist_id": "a06",
+    "rating": 4.5,
+    "reviews": 94,
+    "tags": [
+      "선물"
+    ],
+    "description": "빈티지 무드의 브로치 한 점. 외투에 꽂으면 분위기가 살아나는 어른 여성 선물에 좋습니다.",
+    "image_url": "https://picsum.photos/seed/p033/800/450"
+  },
+  {
+    "id": "p034",
+    "name": "천연비누 5종 세트",
+    "category": "비누",
+    "price": 32000,
+    "artist_id": "a07",
+    "rating": 4.6,
+    "reviews": 178,
+    "tags": [
+      "선물",
+      "집들이"
+    ],
+    "description": "향이 다른 5종 비누 세트. 집들이·결혼식 답례품에 부담 없는 가격대로 누구에게나 환영받는 무난한 선물입니다.",
+    "image_url": "https://picsum.photos/seed/p034/800/450"
+  },
+  {
+    "id": "p035",
+    "name": "우유 비누(단품)",
+    "category": "비누",
+    "price": 6000,
+    "artist_id": "a07",
+    "rating": 4.5,
+    "reviews": 412,
+    "tags": [
+      "일상"
+    ],
+    "description": "우유 성분이 들어간 부드러운 세안 비누. 가성비가 좋아서 본인 사용·가벼운 답례품에 두루 좋아요.",
+    "image_url": "https://picsum.photos/seed/p035/800/450"
+  },
+  {
+    "id": "p036",
+    "name": "베이비 비누 4종 세트",
+    "category": "비누",
+    "price": 28000,
+    "artist_id": "a07",
+    "rating": 4.7,
+    "reviews": 134,
+    "tags": [
+      "베이비",
+      "선물"
+    ],
+    "description": "자극이 적은 베이비 비누 4종. 출산 선물·돌 답례품으로 안전하게 권할 수 있는 가격대입니다.",
+    "image_url": "https://picsum.photos/seed/p036/800/450"
+  },
+  {
+    "id": "p037",
+    "name": "욕실 향기 세트(비누+오일)",
+    "category": "비누",
+    "price": 75000,
+    "artist_id": "a07",
+    "rating": 4.7,
+    "reviews": 89,
+    "tags": [
+      "선물",
+      "집들이"
+    ],
+    "description": "비누와 오일을 함께 담은 욕실 향기 세트. 집들이·미혼 친구 선물에 작가의 디테일이 돋보입니다.",
+    "image_url": "https://picsum.photos/seed/p037/800/450"
+  },
+  {
+    "id": "p038",
+    "name": "손바느질 파우치",
+    "category": "패브릭",
+    "price": 25000,
+    "artist_id": "a08",
+    "rating": 4.6,
+    "reviews": 87,
+    "tags": [
+      "일상"
+    ],
+    "description": "손바느질 디테일이 살아있는 파우치. 일상 잡템·여행 소품 정리에 두루 쓰는 실용 아이템.",
+    "image_url": "https://picsum.photos/seed/p038/800/450"
+  },
+  {
+    "id": "p039",
+    "name": "린넨 앞치마",
+    "category": "패브릭",
+    "price": 48000,
+    "artist_id": "a08",
+    "rating": 4.7,
+    "reviews": 64,
+    "tags": [
+      "집들이",
+      "선물"
+    ],
+    "description": "천연 린넨으로 만든 앞치마. 요리를 즐기는 친구나 어머니께 드리기 좋은 자연스러운 결의 선물.",
+    "image_url": "https://picsum.photos/seed/p039/800/450"
+  },
+  {
+    "id": "p040",
+    "name": "패브릭 책커버",
+    "category": "패브릭",
+    "price": 18000,
+    "artist_id": "a08",
+    "rating": 4.5,
+    "reviews": 142,
+    "tags": [
+      "일상"
+    ],
+    "description": "책 좋아하는 분께 한 장. 작은 가격대지만 책과 함께 일상에 따뜻함을 더해주는 선물입니다.",
+    "image_url": "https://picsum.photos/seed/p040/800/450"
+  },
+  {
+    "id": "p041",
+    "name": "자수 손수건 5장 세트",
+    "category": "패브릭",
+    "price": 35000,
+    "artist_id": "a08",
+    "rating": 4.7,
+    "reviews": 71,
+    "tags": [
+      "선물",
+      "맞춤"
+    ],
+    "description": "자수 손수건 5장 세트. 어른께 드리는 단정한 선물에 격이 있어 환갑·고희 같은 자리에도 어울립니다.",
+    "image_url": "https://picsum.photos/seed/p041/800/450"
+  },
+  {
+    "id": "p042",
+    "name": "인물 초상 일러스트(A4 액자)",
+    "category": "일러스트",
+    "price": 280000,
+    "artist_id": "a09",
+    "rating": 4.9,
+    "reviews": 28,
+    "tags": [
+      "환갑",
+      "선물",
+      "고급",
+      "맞춤"
+    ],
+    "description": "사진을 보내면 작가가 한 폭의 일러스트로 그려주는 맞춤 작품. 환갑·칠순·결혼기념일 같은 인생의 기념일에 가장 의미 있는 선물입니다.",
+    "image_url": "https://picsum.photos/seed/p042/800/450"
+  },
+  {
+    "id": "p043",
+    "name": "가족 초상 일러스트(A3 액자)",
+    "category": "일러스트",
+    "price": 480000,
+    "artist_id": "a09",
+    "rating": 4.9,
+    "reviews": 19,
+    "tags": [
+      "환갑",
+      "선물",
+      "고급",
+      "맞춤"
+    ],
+    "description": "가족 사진을 받아 A3 사이즈 일러스트로 다시 그려주는 작품. 부모님 환갑·고희·결혼기념일 선물의 정수로 평생 보관할 가치가 있는 선물입니다.",
+    "image_url": "https://picsum.photos/seed/p043/800/450"
+  },
+  {
+    "id": "p044",
+    "name": "펫 초상 일러스트(A4)",
+    "category": "일러스트",
+    "price": 220000,
+    "artist_id": "a09",
+    "rating": 4.8,
+    "reviews": 41,
+    "tags": [
+      "선물",
+      "맞춤"
+    ],
+    "description": "반려동물 사진을 일러스트로 다시 그려주는 작품. 펫을 가족처럼 여기는 친구에게 잊지 못할 선물이 됩니다.",
+    "image_url": "https://picsum.photos/seed/p044/800/450"
+  },
+  {
+    "id": "p045",
+    "name": "풍경 원화(A3)",
+    "category": "일러스트",
+    "price": 350000,
+    "artist_id": "a09",
+    "rating": 4.8,
+    "reviews": 22,
+    "tags": [
+      "고급",
+      "인테리어"
+    ],
+    "description": "작가가 직접 그린 A3 풍경 원화. 신혼집·서재 인테리어 포인트로 한 점이면 공간 무드가 달라집니다.",
+    "image_url": "https://picsum.photos/seed/p045/800/450"
+  },
+  {
+    "id": "p046",
+    "name": "캘리그라피 한 줄(A4)",
+    "category": "일러스트",
+    "price": 95000,
+    "artist_id": "a09",
+    "rating": 4.7,
+    "reviews": 78,
+    "tags": [
+      "선물",
+      "맞춤"
+    ],
+    "description": "좋아하는 문구 한 줄을 캘리그라피로 받아주는 작품. 결혼·생일·졸업처럼 한 마디가 마음을 움직이는 자리에 어울립니다.",
+    "image_url": "https://picsum.photos/seed/p046/800/450"
+  },
+  {
+    "id": "p047",
+    "name": "손빚은 사발 한 쌍",
+    "category": "그릇",
+    "price": 95000,
+    "artist_id": "a10",
+    "rating": 4.7,
+    "reviews": 56,
+    "tags": [
+      "결혼",
+      "선물"
+    ],
+    "description": "부부 한 쌍 손빚은 사발. 결혼·집들이 선물로 무난하게 환영받는 도자 작품입니다.",
+    "image_url": "https://picsum.photos/seed/p047/800/450"
+  },
+  {
+    "id": "p048",
+    "name": "토기 접시 4p 세트",
+    "category": "그릇",
+    "price": 128000,
+    "artist_id": "a10",
+    "rating": 4.6,
+    "reviews": 47,
+    "tags": [
+      "집들이",
+      "결혼",
+      "선물"
+    ],
+    "description": "토기 질감을 살린 4p 접시 세트. 식탁 분위기를 따뜻하고 자연스럽게 만들어주는 살림 선물입니다.",
+    "image_url": "https://picsum.photos/seed/p048/800/450"
+  },
+  {
+    "id": "p049",
+    "name": "청자 다완",
+    "category": "그릇",
+    "price": 285000,
+    "artist_id": "a10",
+    "rating": 4.8,
+    "reviews": 31,
+    "tags": [
+      "환갑",
+      "선물",
+      "고급",
+      "다도"
+    ],
+    "description": "청자 빛깔의 단정한 다완. 다도를 즐기는 어른께 환갑·고희 선물로 드리면 격조 있는 의미를 담을 수 있습니다.",
+    "image_url": "https://picsum.photos/seed/p049/800/450"
+  },
+  {
+    "id": "p050",
+    "name": "손빚은 텀블러(2p)",
+    "category": "그릇",
+    "price": 78000,
+    "artist_id": "a10",
+    "rating": 4.7,
+    "reviews": 64,
+    "tags": [
+      "선물",
+      "일상"
+    ],
+    "description": "일상용 손빚은 텀블러 한 쌍. 부부·커플의 데일리 살림 선물로 어울리는 가격대입니다.",
+    "image_url": "https://picsum.photos/seed/p050/800/450"
+  }
 ]

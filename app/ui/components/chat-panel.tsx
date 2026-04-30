@@ -6,9 +6,12 @@ import { Send } from "lucide-react";
 import { useEffect, useState, type ComponentProps } from "react";
 import ReactMarkdown from "react-markdown";
 
+import { ProductCard, type ProductCardData } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import artistsData from "@/data/artists.json";
+import productsData from "@/data/products.json";
 import usersData from "@/data/users.json";
 import { DEFAULT_USER_ID } from "@/lib/tools";
 
@@ -16,12 +19,32 @@ const STARTER_PROMPTS = [
   { label: "환불", icon: "💸", prompt: "주문한 컵 환불하고 싶어요." },
   { label: "선물 추천", icon: "🎁", prompt: "엄마 환갑 선물 추천해줘." },
   { label: "배송", icon: "📦", prompt: "주문한 거 언제 와요?" },
-  { label: "작가 무응답", icon: "👤", prompt: "작가가 답이 없어요." },
+  { label: "작가 무응답", icon: "👤", prompt: "작가가 메시지에 답이 없어요." },
   { label: "작품 하자", icon: "🔧", prompt: "받은 작품에 금이 갔어요." },
   { label: "교환", icon: "🔄", prompt: "사이즈 다른 색으로 바꿀 수 있나요?" },
-  { label: "선물 옵션", icon: "🎀", prompt: "선물 카드 메시지 추가 가능해요?" },
+  { label: "선물하기", icon: "🎀", prompt: "선물하기 옵션 어떻게 추가해요?" },
   { label: "부분 환불", icon: "💰", prompt: "절반만 환불받을 수 있을까요?" },
 ];
+
+const productById = new Map(productsData.map((p) => [p.id, p]));
+const artistById = new Map(artistsData.map((a) => [a.id, a]));
+
+function lookupCardData(productId: string): ProductCardData | null {
+  const p = productById.get(productId);
+  if (!p) return null;
+  const artist = artistById.get(p.artist_id);
+  return {
+    id: p.id,
+    name: p.name,
+    category: p.category,
+    price: p.price,
+    rating: p.rating,
+    reviews: p.reviews,
+    image_url: (p as { image_url?: string }).image_url,
+    artist_name: artist?.name,
+    artist_lead_time_days: artist?.avg_lead_time_days,
+  };
+}
 
 interface Props {
   onMessages: (messages: UIMessage[]) => void;
@@ -127,8 +150,27 @@ function MessageBubble({ message }: { message: UIMessage }) {
     .join("");
   const toolPartCount = message.parts.filter((p) => p.type.startsWith("tool-")).length;
 
+  // 응답 sources에서 product_ids 추출 → ProductCard 3개 렌더
+  let productIds: string[] = [];
+  if (!isUser) {
+    const match = text.match(/```json\s*([\s\S]*?)\s*```/);
+    if (match) {
+      try {
+        const parsed = JSON.parse(match[1]);
+        const ids = parsed?.sources?.product_ids;
+        if (Array.isArray(ids)) productIds = ids.filter((x): x is string => typeof x === "string");
+      } catch {
+        // ignore parse error
+      }
+    }
+  }
+
+  const cards = productIds
+    .map((id) => lookupCardData(id))
+    .filter((c): c is ProductCardData => c !== null);
+
   return (
-    <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
+    <div className={`flex ${isUser ? "justify-end" : "justify-start"} ${isUser ? "" : "flex-col items-start"}`}>
       <div
         className={[
           "rounded-2xl px-4 py-2 max-w-[85%] text-sm leading-relaxed",
@@ -166,6 +208,15 @@ function MessageBubble({ message }: { message: UIMessage }) {
           </div>
         )}
       </div>
+
+      {/* 추천 카드 — sources.product_ids 있으면 자동 렌더 */}
+      {!isUser && cards.length > 0 && (
+        <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3 w-full max-w-3xl">
+          {cards.map((c) => (
+            <ProductCard key={c.id} product={c} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

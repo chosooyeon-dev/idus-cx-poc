@@ -251,6 +251,7 @@ export const recommend_gift = tool({
         reviews: p.reviews,
         tags: p.tags,
         description: p.description,
+        image_url: (p as { image_url?: string }).image_url,
         artist_name: artistsMap[p.artist_id]?.name,
         artist_lead_time_days: artistsMap[p.artist_id]?.avg_lead_time_days,
       })),
@@ -301,29 +302,76 @@ export const track_shipping = tool({
   },
 });
 
+// 이슈 타입별 담당 부서·평균 대기시간 매핑 (시연용 합성)
+const ESCALATION_ROUTING: Record<string, { department: string; avg_wait_min: number }> = {
+  defect: { department: "작품 검수팀", avg_wait_min: 7 },        // 작품 하자
+  artist_unresponsive: { department: "작가 관리팀", avg_wait_min: 10 },  // 작가 무응답
+  legal: { department: "분쟁 해결팀", avg_wait_min: 15 },          // 법적 위협
+  emotion: { department: "VIP 케어팀", avg_wait_min: 5 },          // 감정 격앙
+  human_review: { department: "CS 매니저팀", avg_wait_min: 8 },    // 룰엔진 human_review
+  general: { department: "CS 일반팀", avg_wait_min: 5 },
+};
+
 export const escalate_to_human = tool({
   description:
-    "**[필수 호출]** 다음 발화 키워드/상황에서 다른 도구를 부르지 말고 이 도구를 가장 먼저 호출하세요. " +
-    "절대 ticket_id나 avg_wait_min을 LLM 지식으로 만들지 말고, 이 도구의 결과 값을 그대로 응답에 사용하세요. " +
-    "키워드: '금이 갔/갔어요/갔네요', '깨졌/부서졌', '흠집', '찢어졌/찢김', '흘렀', '풀렸/풀려요', " +
-    "'법적/변호사/신고/고소/소비자원', '작가가 답이 없어요/연락 안 돼/응답 없', " +
-    "'정말 화가/진짜 너무/어이없/울고 싶'. " +
-    "기타: 작가 무응답 5영업일 이상, VIP+강한 불만, 룰엔진 decision='human_review', 사람 판단 필요. " +
-    "응답에는 결과의 ticket_id와 avg_wait_min을 그대로 인용하세요.",
+    "**[필수 호출 — Discovery 후]** 사람 이관 의도가 보이면 먼저 collected_info의 모든 필드를 채울 수 있도록 " +
+    "사용자에게 1~3개의 추가 질문을 해서 정보를 수집한 뒤 이 도구를 호출하세요. " +
+    "정보 수집 없이 즉시 호출 금지. 단, 사용자가 이미 충분한 정보를 한 번에 준 경우는 바로 호출 가능. " +
+    "절대 ticket_id, department, avg_wait_min을 LLM 지식으로 만들지 말고, 이 도구의 결과 값을 그대로 응답에 사용하세요. " +
+    "issue_type 분류: 'defect'(작품 하자) / 'artist_unresponsive'(작가 무응답) / 'legal'(법적 위협) / " +
+    "'emotion'(감정 격앙) / 'human_review'(룰엔진 결과) / 'general'.",
   inputSchema: z.object({
-    reason: z.string().describe("이관 사유 (위 카테고리 중 하나 + 짧은 한국어 설명)"),
-    conv_summary: z.string().describe("매니저가 컨텍스트를 빠르게 잡을 수 있는 1-2문장 요약"),
+    issue_type: z
+      .enum(["defect", "artist_unresponsive", "legal", "emotion", "human_review", "general"])
+      .describe("이슈 카테고리 — 부서 라우팅과 대기시간 결정"),
+    reason: z.string().describe("이관 사유 한 줄 요약"),
+    conv_summary: z.string().describe("매니저가 컨텍스트를 빠르게 잡을 수 있는 1-3문장 요약 (지금까지 대화에서 추출)"),
+    collected_info: z
+      .object({
+        order_ref: z.string().nullable().default(null).describe("관련 주문 ID (예: '1234')"),
+        days_since_received: z
+          .number()
+          .nullable()
+          .default(null)
+          .describe("작품 받은 후 일수 (작품 하자/배송 문의 시)"),
+        when_happened: z
+          .string()
+          .nullable()
+          .default(null)
+          .describe("문제 발생 시점 — '받자마자' / '사용 중' / '배송 중' / '불명' 중 하나"),
+        photos_described: z
+          .string()
+          .nullable()
+          .default(null)
+          .describe("사용자가 묘사한 사진/실물 상태 (작품 하자 시)"),
+        urgency: z.enum(["low", "normal", "high"]).default("normal"),
+        contact_pref: z
+          .string()
+          .nullable()
+          .default(null)
+          .describe("선호 연락 수단 — '앱 메시지' / '전화' / '이메일'"),
+      })
+      .describe("Discovery dialog로 수집된 구조화 정보"),
   }),
-  execute: async ({ reason, conv_summary }) => {
-    const ticketId = `TKT-${Date.now().toString(36).toUpperCase().slice(-6)}`;
-    const avgWaitMin = 5;
+  execute: async ({ issue_type, reason, conv_summary, collected_info }) => {
+    // ticket_id 자동 발급: timestamp 기반 hash 6자리
+    const ts = Date.now();
+    const hash = (
+      ts.toString(36) + Math.random().toString(36).slice(2, 6)
+    ).toUpperCase().slice(-6);
+    const ticketId = `TKT-${hash}`;
+
+    const routing = ESCALATION_ROUTING[issue_type] ?? ESCALATION_ROUTING.general;
+
     return {
       ticket_id: ticketId,
-      avg_wait_min: avgWaitMin,
-      message: `담당자에게 연결해드렸어요. 평균 대기 ${avgWaitMin}분.`,
+      department: routing.department,
+      avg_wait_min: routing.avg_wait_min,
+      issue_type,
+      received_info: collected_info,
       reason,
       summary: conv_summary,
-      created_at: new Date().toISOString(),
+      created_at: new Date(ts).toISOString(),
     };
   },
 });
