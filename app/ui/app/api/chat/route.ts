@@ -360,22 +360,8 @@ export async function POST(req: Request) {
     stopWhen: stepCountIs(8),
     temperature: 0,
     maxOutputTokens: 4096,
-    // 도구 호출 step 직후 다음 step에서는 toolChoice='none' 강제 →
-    // LLM이 도구 결과를 보고 자연어 응답을 반드시 생성하게 만듭니다.
-    // GLM-4.6이 도구 호출 후 finishReason='stop' 반환하며 텍스트 안 만드는 패턴 회피.
-    prepareStep: async ({ steps }) => {
-      if (steps.length === 0) return undefined;
-      const last = steps[steps.length - 1] as {
-        toolCalls?: unknown[];
-        text?: string;
-      };
-      const hasToolCalls = Array.isArray(last.toolCalls) && last.toolCalls.length > 0;
-      const textLen = typeof last.text === "string" ? last.text.length : 0;
-      if (hasToolCalls && textLen < 80) {
-        return { toolChoice: "none" as const };
-      }
-      return undefined;
-    },
+    // prepareStep 제거: Sonnet 4.5는 multi-step tool use 자체 처리 강함.
+    // GLM-4.6용 toolChoice='none' 강제가 오히려 multi-turn에서 LLM의 추가 도구 호출을 차단해 응답 못 만들게 만듦.
     onStepFinish: ({ finishReason, text, toolCalls }) => {
       const tools = (toolCalls ?? [])
         .map((t: { toolName?: string }) => t.toolName ?? "?")
