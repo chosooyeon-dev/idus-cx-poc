@@ -2,7 +2,7 @@
  * Vercel AI SDK tool 정의 — 단일 에이전트가 의도별로 호출.
  *
  * Phase 2 Python 백엔드에서 검증된 룰엔진을 직역(refund_policy.ts).
- * 보강 1차에서 user 컨텍스트 도구 4개 추가.
+ * 묶음 C에서 recommend_gift를 자연어 의미 매칭형으로 강화 (occasion_context · gift_recipient).
  */
 import { tool } from "ai";
 import { z } from "zod";
@@ -55,7 +55,6 @@ const SAMPLE_ORDERS: Record<string, SampleOrder> = {
 
 const IN_PROGRESS_STAGES: OrderStage[] = ["pre_production", "in_production", "pre_shipment"];
 
-// 동일 주문 환불 문의 카운터 (메모리 in-process; 시연용. 운영은 Redis/Upstash로).
 const inquiryCounters = new Map<string, number>();
 
 // ---------------------------------------------------------------------------
@@ -99,7 +98,7 @@ export const get_user_orders = tool({
   description:
     "유저의 주문을 status_filter로 필터링해 리스트로 반환합니다. " +
     "status_filter: 'in_progress'(진행 중) | 'delivered'(완료) | 'all'(전체). " +
-    "유저가 주문 ID를 명시하지 않고 '환불해주세요'·'배송 어디까지'처럼 모호하게 말하면 먼저 호출.",
+    "유저가 주문 ID를 명시하지 않고 '환불해주세요'·'배송 어디까지'·'주문한 컵'처럼 모호하게 말하면 먼저 호출.",
   inputSchema: z.object({
     user_id: z.string(),
     status_filter: z.enum(["in_progress", "delivered", "all"]).default("in_progress"),
@@ -190,37 +189,76 @@ export const refund_policy_engine = tool({
 });
 
 // ---------------------------------------------------------------------------
-// Recommendation
+// Recommendation — 의미 매칭형 (1차 가격·카테고리 필터 → LLM이 description 보고 의미 ranking)
 // ---------------------------------------------------------------------------
+
+const OCCASION_KEYWORDS = [
+  "환갑",
+  "칠순",
+  "고희",
+  "팔순",
+  "생신",
+  "집들이",
+  "결혼",
+  "베이비",
+  "출산",
+  "돌",
+];
 
 export const recommend_gift = tool({
   description:
-    "예산·카테고리·상황에 맞춰 핸드메이드 상품 상위 3개를 추천합니다. " +
-    "occasion 태그 예: '환갑', '집들이', '결혼', '베이비', '생신'. " +
-    "결과가 비면 category 또는 occasion을 한 단계 완화해 재호출.",
+    "예산·카테고리·자연어 상황(occasion_context)·받는 사람(gift_recipient)을 받아 후보 8개를 반환합니다. " +
+    "LLM이 후보의 description을 읽고 의미 매칭으로 상위 3개를 직접 ranking·선택해 응답에 사용합니다. " +
+    "결과 candidates가 비어있으면 budget_max를 1.5배로 완화하거나 category를 빼고 재호출하세요.",
   inputSchema: z.object({
     budget_min: z.number().int().default(0),
     budget_max: z.number().int().default(10_000_000),
-    category: z.string().nullable().default(null),
-    occasion: z.string().nullable().default(null),
+    category: z.string().nullable().default(null).describe("도자기/캔들/액세서리/비누/그릇/가죽/뜨개/우드/패브릭/일러스트 중 하나, 없으면 null"),
+    occasion_context: z.string().nullable().default(null).describe("자연어 상황 설명. 예: '엄마 환갑 선물', '60세 생신', '부모님 70세 기념', '친구 출산 선물'"),
+    gift_recipient: z.string().nullable().default(null).describe("자연어 받는 사람 정보. 예: '엄마', '60대 어머니', '친한 친구', '신혼부부'"),
   }),
-  execute: async ({ budget_min, budget_max, category, occasion }) => {
+  execute: async ({ budget_min, budget_max, category, occasion_context, gift_recipient }) => {
     let candidates = productsData.filter(
       (p) => p.price >= budget_min && p.price <= budget_max
     );
     if (category) candidates = candidates.filter((p) => p.category === category);
-    if (occasion) candidates = candidates.filter((p) => (p.tags ?? []).includes(occasion));
 
-    candidates.sort((a, b) => (b.rating - a.rating) || (b.reviews - a.reviews));
-    const top = candidates.slice(0, 3);
+    // occasion_context에서 명시 키워드 추출 → tag 매칭 우선 정렬
+    const matchedKeyword = occasion_context
+      ? OCCASION_KEYWORDS.find((k) => occasion_context.includes(k))
+      : null;
 
+    candidates.sort((a, b) => {
+      const aMatch = matchedKeyword && a.tags?.includes(matchedKeyword) ? 1 : 0;
+      const bMatch = matchedKeyword && b.tags?.includes(matchedKeyword) ? 1 : 0;
+      if (aMatch !== bMatch) return bMatch - aMatch;
+      if (a.rating !== b.rating) return b.rating - a.rating;
+      return b.reviews - a.reviews;
+    });
+
+    const top = candidates.slice(0, 5);
     const artistsMap = Object.fromEntries(artistsData.map((a) => [a.id, a]));
-    return top.map((p) => ({
-      ...p,
-      artist_name: artistsMap[p.artist_id]?.name,
-      artist_lead_time_days: artistsMap[p.artist_id]?.avg_lead_time_days,
-      artist_policy_type: artistsMap[p.artist_id]?.policy_type,
-    }));
+
+    return {
+      query: { budget_min, budget_max, category, occasion_context, gift_recipient },
+      matched_occasion_tag: matchedKeyword,
+      candidates: top.map((p) => ({
+        id: p.id,
+        name: p.name,
+        category: p.category,
+        price: p.price,
+        rating: p.rating,
+        reviews: p.reviews,
+        tags: p.tags,
+        description: p.description,
+        artist_name: artistsMap[p.artist_id]?.name,
+        artist_lead_time_days: artistsMap[p.artist_id]?.avg_lead_time_days,
+      })),
+      hint:
+        candidates.length === 0
+          ? "후보가 없습니다. budget_max를 1.5배로 완화하거나 category를 빼고 다시 호출하세요."
+          : `${top.length}개 후보 description을 의미 매칭해 상위 3개를 즉시 응답에 포함하세요. 다른 도구 호출 없이 바로 사용자에게 최종 응답을 작성합니다.`,
+    };
   },
 });
 
@@ -267,10 +305,11 @@ export const escalate_to_human = tool({
   description:
     "명시적으로 CS 매니저에게 이관합니다. 다음 상황에서 호출하세요: " +
     "(a) 작가 무응답 5영업일 이상, (b) VIP 등급 + 강한 불만, (c) 법적·신고·고소·환불 안 해주면 류 위협, " +
-    "(d) 강한 감정 표현(화·울·정말·진짜 X) 반복, (e) 같은 주문 환불 문의 3회 이상. " +
+    "(d) 강한 감정 표현(화·울·정말·진짜) 반복, (e) 같은 주문 환불 문의 3회 이상, " +
+    "(f) 룰엔진 결과 decision='human_review', (g) 작품 하자 사진 첨부 요청 등 사람 판단 필요. " +
     "응답에 ticket_id와 평균 대기 시간을 포함합니다.",
   inputSchema: z.object({
-    reason: z.string().describe("이관 사유 (위 5개 카테고리 중 하나 + 짧은 한국어 설명)"),
+    reason: z.string().describe("이관 사유 (위 카테고리 중 하나 + 짧은 한국어 설명)"),
     conv_summary: z.string().describe("매니저가 컨텍스트를 빠르게 잡을 수 있는 1-2문장 요약"),
   }),
   execute: async ({ reason, conv_summary }) => {
@@ -298,5 +337,4 @@ export const allTools = {
   escalate_to_human,
 };
 
-// 시연용: 챗 시작 시 자동 주입할 default 로그인 유저
 export const DEFAULT_USER_ID = "u01";

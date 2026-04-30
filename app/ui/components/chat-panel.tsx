@@ -13,10 +13,14 @@ import usersData from "@/data/users.json";
 import { DEFAULT_USER_ID } from "@/lib/tools";
 
 const STARTER_PROMPTS = [
-  { label: "환불 문의", prompt: "환불해주세요." },
-  { label: "환갑 선물 추천", prompt: "엄마 환갑 선물로 30만원대 도자기 추천해주세요." },
-  { label: "배송 문의", prompt: "주문한 거 언제 와요?" },
-  { label: "강한 불만 (이관)", prompt: "여러 번 문의했는데 답이 없어서 정말 화가 나요. 환불 안 해주면 신고할 거예요." },
+  { label: "환불", prompt: "주문한 컵 환불하고 싶어요." },
+  { label: "선물 추천", prompt: "엄마 환갑 선물 추천해줘." },
+  { label: "배송", prompt: "주문한 거 언제 와요?" },
+  { label: "작가 무응답", prompt: "작가가 답이 없어요." },
+  { label: "작품 하자", prompt: "받은 작품에 금이 갔어요." },
+  { label: "교환", prompt: "사이즈 다른 색으로 바꿀 수 있나요?" },
+  { label: "선물 옵션", prompt: "선물 카드 메시지 추가 가능해요?" },
+  { label: "부분 환불", prompt: "절반만 환불받을 수 있을까요?" },
 ];
 
 interface Props {
@@ -59,12 +63,12 @@ export function ChatPanel({ onMessages }: Props) {
               {currentUser ? `${currentUser.nickname}님, 어떤 도움이 필요하세요? 🎨` : "안녕하세요, 아이디어스 CS입니다 🎨"}
             </p>
             <p className="text-sm text-gray-500 mb-6">환불 · 추천 · 배송 · 직접 상담을 도와드릴게요.</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full max-w-md">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full max-w-2xl">
               {STARTER_PROMPTS.map((s) => (
                 <button
                   key={s.label}
                   onClick={() => submit(s.prompt)}
-                  className="text-left px-3 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 text-sm"
+                  className="text-left px-3 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 text-sm min-w-0"
                 >
                   <div className="font-medium">{s.label}</div>
                   <div className="text-xs text-gray-500 truncate">{s.prompt}</div>
