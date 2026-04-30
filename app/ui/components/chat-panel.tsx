@@ -3,7 +3,7 @@
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
 import { Send } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ComponentProps } from "react";
 import ReactMarkdown from "react-markdown";
 
 import { Button } from "@/components/ui/button";
@@ -44,15 +44,15 @@ export function ChatPanel({ onMessages }: Props) {
   };
 
   return (
-    <div className="flex flex-col h-full flex-1 bg-white shadow-sm border border-gray-200 rounded-xl">
-      <div className="bg-blue-600 text-white h-12 px-4 flex items-center rounded-t-xl">
+    <div className="flex flex-col h-full min-w-0 bg-white shadow-sm border border-gray-200 rounded-xl overflow-hidden">
+      <div className="bg-blue-600 text-white h-12 px-4 flex items-center rounded-t-xl shrink-0">
         <h2 className="font-semibold text-sm sm:text-base lg:text-lg">고객 화면</h2>
-        <span className="ml-auto text-xs font-light opacity-90">
+        <span className="ml-auto text-xs font-light opacity-90 truncate">
           안녕하세요, <span className="font-medium">{userLabel}</span>
         </span>
       </div>
 
-      <ScrollArea className="flex-1 p-4">
+      <ScrollArea className="flex-1 min-h-0 p-4">
         {messages.length === 0 && (
           <div className="flex flex-col items-center justify-center h-full text-center py-12">
             <p className="text-gray-700 font-medium mb-1">
@@ -89,7 +89,7 @@ export function ChatPanel({ onMessages }: Props) {
           e.preventDefault();
           submit(input);
         }}
-        className="border-t p-3 flex gap-2"
+        className="border-t p-3 flex gap-2 shrink-0"
       >
         <Input
           value={input}
@@ -111,28 +111,84 @@ function MessageBubble({ message }: { message: UIMessage }) {
     .filter((p) => p.type === "text")
     .map((p) => (p as { type: "text"; text: string }).text)
     .join("");
-  const toolParts = message.parts.filter((p) => p.type.startsWith("tool-"));
+  const toolPartCount = message.parts.filter((p) => p.type.startsWith("tool-")).length;
 
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
       <div
-        className={`rounded-2xl px-4 py-2 max-w-[85%] text-sm leading-relaxed ${
-          isUser ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-900"
-        }`}
+        className={[
+          "rounded-2xl px-4 py-2 max-w-[85%] text-sm leading-relaxed",
+          "min-w-0 break-words [overflow-wrap:anywhere]",
+          isUser ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-900",
+        ].join(" ")}
       >
-        {!isUser && toolParts.length > 0 && (
+        {!isUser && toolPartCount > 0 && (
           <div className="mb-2 text-xs text-gray-500 italic">
-            🔧 {toolParts.length}개 도구 호출 (우측 트레이스 패널 참조)
+            🔧 {toolPartCount}개 도구 호출 (우측 트레이스 패널 참조)
           </div>
         )}
         {isUser ? (
           <div className="whitespace-pre-wrap">{text}</div>
         ) : (
-          <div className="prose prose-sm max-w-none">
-            <ReactMarkdown>{text}</ReactMarkdown>
+          <div className="prose prose-sm max-w-none break-words">
+            <ReactMarkdown
+              components={{
+                pre: PreBlock,
+                code: InlineCode,
+                blockquote: ({ children, ...props }) => (
+                  <blockquote
+                    {...props}
+                    className="border-l-2 border-blue-500 pl-3 py-1 my-2 text-gray-600 bg-blue-50/40 rounded-r"
+                  >
+                    {children}
+                  </blockquote>
+                ),
+              }}
+            >
+              {text}
+            </ReactMarkdown>
           </div>
         )}
       </div>
     </div>
   );
+}
+
+// `pre > code` 코드블록 — sources JSON이면 <details>로 접기, 아니면 가로 스크롤.
+function PreBlock(props: ComponentProps<"pre">) {
+  const child = Array.isArray(props.children) ? props.children[0] : props.children;
+  const codeChild = child as { props?: { className?: string; children?: unknown } } | undefined;
+  const className = codeChild?.props?.className ?? "";
+  const text = String(codeChild?.props?.children ?? "").trim();
+
+  if (/language-json/.test(className)) {
+    try {
+      const parsed = JSON.parse(text);
+      if (parsed && typeof parsed === "object" && "sources" in parsed) {
+        return (
+          <details className="my-2 not-prose text-xs text-gray-600">
+            <summary className="cursor-pointer select-none px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 inline-block">
+              📋 sources 보기 (JSON)
+            </summary>
+            <pre className="mt-1 bg-gray-50 rounded p-2 overflow-x-auto whitespace-pre-wrap break-all">
+              {JSON.stringify(parsed.sources, null, 2)}
+            </pre>
+          </details>
+        );
+      }
+    } catch {
+      // 파싱 실패: 일반 코드블록으로
+    }
+  }
+
+  return (
+    <pre {...props} className="overflow-x-auto bg-gray-100 rounded p-2 text-xs whitespace-pre-wrap break-all">
+      {props.children}
+    </pre>
+  );
+}
+
+function InlineCode(props: ComponentProps<"code">) {
+  // pre 안의 code는 PreBlock에서 처리. 인라인 코드만 여기서.
+  return <code {...props} className="px-1 py-0.5 rounded bg-gray-200 text-xs break-all" />;
 }
