@@ -1,0 +1,12 @@
+[
+  { "id": "u01", "nickname": "지수", "grade": "VIP", "joined": "2023-04-12", "order_ids": ["1001", "1002", "1234"] },
+  { "id": "u02", "nickname": "민준", "grade": "Regular", "joined": "2024-01-08", "order_ids": ["1003", "1010"] },
+  { "id": "u03", "nickname": "서연", "grade": "Regular", "joined": "2025-08-22", "order_ids": ["1004"] },
+  { "id": "u04", "nickname": "도현", "grade": "Regular", "joined": "2024-06-15", "order_ids": ["1005"] },
+  { "id": "u05", "nickname": "하은", "grade": "VIP", "joined": "2022-11-03", "order_ids": ["1006", "1014"] },
+  { "id": "u06", "nickname": "시우", "grade": "Regular", "joined": "2025-02-19", "order_ids": ["1007"] },
+  { "id": "u07", "nickname": "지호", "grade": "Regular", "joined": "2024-10-30", "order_ids": ["1008"] },
+  { "id": "u08", "nickname": "예린", "grade": "Regular", "joined": "2025-09-11", "order_ids": ["1011"] },
+  { "id": "u09", "nickname": "우진", "grade": "Regular", "joined": "2024-03-25", "order_ids": ["1012"] },
+  { "id": "u10", "nickname": "채원", "grade": "Regular", "joined": "2023-09-07", "order_ids": ["1013"] }
+]

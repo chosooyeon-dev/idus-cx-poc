@@ -6,22 +6,34 @@
  */
 
 export const TOOL_DISPLAY_NAMES: Record<string, string> = {
+  lookup_user: "유저 조회",
+  get_user_orders: "유저 주문 목록",
   lookup_order: "주문 조회",
   lookup_artist: "작가 정책 조회",
   refund_policy_engine: "환불 정책 룰엔진",
   recommend_gift: "선물 추천 검색",
+  track_shipping: "배송 조회",
+  escalate_to_human: "사람 이관",
 };
 
-export const TOOL_INTENT: Record<string, "refund" | "recommend" | "shared"> = {
-  lookup_order: "shared", // 환불·추천 양쪽에서 사용 가능
+export type Intent = "refund" | "recommend" | "shipping" | "escalation" | "shared";
+
+export const TOOL_INTENT: Record<string, Intent> = {
+  lookup_user: "shared",
+  get_user_orders: "shared",
+  lookup_order: "shared",
   lookup_artist: "shared",
   refund_policy_engine: "refund",
   recommend_gift: "recommend",
+  track_shipping: "shipping",
+  escalate_to_human: "escalation",
 };
 
-export const INTENT_DISPLAY_NAMES: Record<string, string> = {
+export const INTENT_DISPLAY_NAMES: Record<Intent, string> = {
   refund: "환불 안내",
   recommend: "선물 추천",
+  shipping: "배송 조회",
+  escalation: "사람 이관",
   shared: "공통",
 };
 
@@ -30,6 +42,6 @@ export function displayToolName(toolName: string): string {
 }
 
 export function displayIntent(toolName: string): string {
-  const intent = TOOL_INTENT[toolName] ?? "shared";
+  const intent: Intent = TOOL_INTENT[toolName] ?? "shared";
   return INTENT_DISPLAY_NAMES[intent];
 }

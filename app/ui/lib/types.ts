@@ -4,11 +4,13 @@
  * 단일 에이전트 + 도구 호출 모델: messages에서 tool-* parts를 추출해 TraceEvent로 변환.
  */
 
+import type { Intent } from "./display";
+
 export interface TraceEvent {
   id: string;
   type: "tool_call" | "tool_output" | "user" | "assistant";
   toolName?: string; // 영문 식별자 (lookup_order 등)
-  intent?: "refund" | "recommend" | "shared"; // display.ts 매핑
+  intent?: Intent; // display.ts 매핑 (refund/recommend/shipping/escalation/shared)
   args?: unknown;
   result?: unknown;
   text?: string;

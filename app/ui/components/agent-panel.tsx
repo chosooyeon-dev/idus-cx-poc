@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
+  type Intent,
   TOOL_DISPLAY_NAMES,
   TOOL_INTENT,
   INTENT_DISPLAY_NAMES,
@@ -43,10 +44,19 @@ export function AgentPanel({ messages }: Props) {
   );
 }
 
+const INTENT_ORDER: Intent[] = ["refund", "recommend", "shipping", "escalation", "shared"];
+
 function ToolsCard() {
-  const grouped: Record<string, string[]> = { refund: [], recommend: [], shared: [] };
+  const grouped: Record<Intent, string[]> = {
+    refund: [],
+    recommend: [],
+    shipping: [],
+    escalation: [],
+    shared: [],
+  };
   for (const [name, intent] of Object.entries(TOOL_INTENT)) {
-    grouped[intent].push(name);
+    const key = (intent as Intent) ?? "shared";
+    grouped[key].push(name);
   }
   return (
     <Card>
@@ -56,7 +66,7 @@ function ToolsCard() {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-2 text-sm">
-        {(["refund", "recommend", "shared"] as const).map((intent) =>
+        {INTENT_ORDER.map((intent) =>
           grouped[intent].length > 0 ? (
             <div key={intent}>
               <div className="text-xs text-gray-500 mb-1">{INTENT_DISPLAY_NAMES[intent]}</div>

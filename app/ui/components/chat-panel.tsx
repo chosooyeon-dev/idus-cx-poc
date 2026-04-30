@@ -9,12 +9,14 @@ import ReactMarkdown from "react-markdown";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import usersData from "@/data/users.json";
+import { DEFAULT_USER_ID } from "@/lib/tools";
 
 const STARTER_PROMPTS = [
+  { label: "환불 문의", prompt: "환불해주세요." },
   { label: "환갑 선물 추천", prompt: "엄마 환갑 선물로 30만원대 도자기 추천해주세요." },
-  { label: "환불 문의", prompt: "주문 #1234 환불해주세요. 색상이 마음에 안 들어서요." },
-  { label: "발송 전 환불", prompt: "주문 #1002 환불 가능한가요?" },
-  { label: "사용 후 환불", prompt: "주문 #1007 비누 받았는데 향이 약해서 환불해주세요. 한 번 써봤어요." },
+  { label: "배송 문의", prompt: "주문한 거 언제 와요?" },
+  { label: "강한 불만 (이관)", prompt: "여러 번 문의했는데 답이 없어서 정말 화가 나요. 환불 안 해주면 신고할 거예요." },
 ];
 
 interface Props {
@@ -32,6 +34,8 @@ export function ChatPanel({ onMessages }: Props) {
   }, [messages, onMessages]);
 
   const isStreaming = status === "streaming" || status === "submitted";
+  const currentUser = usersData.find((u) => u.id === DEFAULT_USER_ID);
+  const userLabel = currentUser ? `${currentUser.nickname}님 · ${currentUser.grade}` : "게스트";
 
   const submit = (text: string) => {
     if (!text.trim() || isStreaming) return;
@@ -43,14 +47,18 @@ export function ChatPanel({ onMessages }: Props) {
     <div className="flex flex-col h-full flex-1 bg-white shadow-sm border border-gray-200 rounded-xl">
       <div className="bg-blue-600 text-white h-12 px-4 flex items-center rounded-t-xl">
         <h2 className="font-semibold text-sm sm:text-base lg:text-lg">고객 화면</h2>
-        <span className="ml-auto text-xs font-light opacity-80">아이디어스 CS</span>
+        <span className="ml-auto text-xs font-light opacity-90">
+          안녕하세요, <span className="font-medium">{userLabel}</span>
+        </span>
       </div>
 
       <ScrollArea className="flex-1 p-4">
         {messages.length === 0 && (
           <div className="flex flex-col items-center justify-center h-full text-center py-12">
-            <p className="text-gray-700 font-medium mb-1">안녕하세요, 아이디어스 CS입니다 🎨</p>
-            <p className="text-sm text-gray-500 mb-6">환불 안내 · 선물 추천을 도와드릴게요.</p>
+            <p className="text-gray-700 font-medium mb-1">
+              {currentUser ? `${currentUser.nickname}님, 어떤 도움이 필요하세요? 🎨` : "안녕하세요, 아이디어스 CS입니다 🎨"}
+            </p>
+            <p className="text-sm text-gray-500 mb-6">환불 · 추천 · 배송 · 직접 상담을 도와드릴게요.</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full max-w-md">
               {STARTER_PROMPTS.map((s) => (
                 <button
@@ -86,7 +94,7 @@ export function ChatPanel({ onMessages }: Props) {
         <Input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="환불·추천 문의를 입력하세요"
+          placeholder="환불 · 추천 · 배송 — 자연스럽게 입력하세요"
           disabled={isStreaming}
         />
         <Button type="submit" disabled={isStreaming || !input.trim()} size="icon" aria-label="전송">
