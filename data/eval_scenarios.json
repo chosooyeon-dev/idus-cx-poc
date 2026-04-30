@@ -1,0 +1,186 @@
+{
+  "date": "2026-04-30T14:32:54.815Z",
+  "prod_url": "https://idus-cx-poc.vercel.app",
+  "n": 8,
+  "pass": 8,
+  "fail": 0,
+  "pass_rate": "100%",
+  "avg_duration_ms": 12485,
+  "results": [
+    {
+      "id": "A",
+      "label": "선물 추천",
+      "input": "엄마 환갑 선물 30만원대 도자기 추천",
+      "expected_tools": [
+        "recommend_gift"
+      ],
+      "min_response_chars": 300,
+      "requires_sources": true,
+      "text_len": 681,
+      "tools": [
+        "recommend_gift"
+      ],
+      "duration_ms": 12720,
+      "checks": {
+        "response_complete": true,
+        "tools_correct": true,
+        "no_inline_source": true,
+        "sources_json": true
+      },
+      "pass": true
+    },
+    {
+      "id": "B",
+      "label": "환불 안내",
+      "input": "주문한 컵 환불해주세요",
+      "expected_tools": [
+        "get_user_orders"
+      ],
+      "min_response_chars": 200,
+      "requires_sources": true,
+      "text_len": 376,
+      "tools": [
+        "get_user_orders",
+        "lookup_faq"
+      ],
+      "duration_ms": 11645,
+      "checks": {
+        "response_complete": true,
+        "tools_correct": true,
+        "no_inline_source": true,
+        "sources_json": true
+      },
+      "pass": true
+    },
+    {
+      "id": "C",
+      "label": "작품 하자 Discovery",
+      "input": "받은 작품에 금이 갔어요",
+      "expected_tools": [],
+      "min_response_chars": 150,
+      "requires_sources": false,
+      "text_len": 217,
+      "tools": [],
+      "duration_ms": 5599,
+      "checks": {
+        "response_complete": true,
+        "tools_correct": true,
+        "no_inline_source": true,
+        "sources_json": true
+      },
+      "pass": true
+    },
+    {
+      "id": "D",
+      "label": "작가 무응답 Discovery",
+      "input": "작가가 답이 없어요",
+      "expected_tools": [],
+      "min_response_chars": 150,
+      "requires_sources": false,
+      "text_len": 428,
+      "tools": [
+        "get_user_orders",
+        "lookup_faq"
+      ],
+      "duration_ms": 14179,
+      "checks": {
+        "response_complete": true,
+        "tools_correct": true,
+        "no_inline_source": true,
+        "sources_json": true
+      },
+      "pass": true
+    },
+    {
+      "id": "E",
+      "label": "부분 환불",
+      "input": "절반만 환불받을 수 있을까요?",
+      "expected_tools": [
+        "get_user_orders"
+      ],
+      "min_response_chars": 200,
+      "requires_sources": true,
+      "text_len": 389,
+      "tools": [
+        "get_user_orders",
+        "lookup_faq"
+      ],
+      "duration_ms": 11992,
+      "checks": {
+        "response_complete": true,
+        "tools_correct": true,
+        "no_inline_source": true,
+        "sources_json": true
+      },
+      "pass": true
+    },
+    {
+      "id": "F",
+      "label": "교환 요청",
+      "input": "다른 색으로 바꿀 수 있나요?",
+      "expected_tools": [
+        "lookup_faq"
+      ],
+      "min_response_chars": 200,
+      "requires_sources": true,
+      "text_len": 651,
+      "tools": [
+        "get_user_orders",
+        "lookup_faq"
+      ],
+      "duration_ms": 14466,
+      "checks": {
+        "response_complete": true,
+        "tools_correct": true,
+        "no_inline_source": true,
+        "sources_json": true
+      },
+      "pass": true
+    },
+    {
+      "id": "G",
+      "label": "배송 조회",
+      "input": "주문한 거 언제 와요?",
+      "expected_tools": [
+        "get_user_orders"
+      ],
+      "min_response_chars": 200,
+      "requires_sources": true,
+      "text_len": 535,
+      "tools": [
+        "get_user_orders",
+        "lookup_faq"
+      ],
+      "duration_ms": 14476,
+      "checks": {
+        "response_complete": true,
+        "tools_correct": true,
+        "no_inline_source": true,
+        "sources_json": true
+      },
+      "pass": true
+    },
+    {
+      "id": "H",
+      "label": "쿠폰",
+      "input": "쿠폰 어떻게 써요?",
+      "expected_tools": [
+        "lookup_faq"
+      ],
+      "min_response_chars": 200,
+      "requires_sources": true,
+      "text_len": 925,
+      "tools": [
+        "lookup_faq"
+      ],
+      "duration_ms": 14800,
+      "checks": {
+        "response_complete": true,
+        "tools_correct": true,
+        "no_inline_source": true,
+        "sources_json": true
+      },
+      "pass": true
+    }
+  ]
+}
